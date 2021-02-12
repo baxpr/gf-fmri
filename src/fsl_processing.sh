@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 # TODO Sanity check to make sure FWD isn't the short one
+# Report correlation of topup fieldmap with actual fieldmap? fslcc but need to resample first
 
 # Inputs
 t1_niigz=../INPUTS/t1.nii.gz
