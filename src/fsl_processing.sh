@@ -8,6 +8,7 @@ t1_niigz=../INPUTS/t1.nii.gz
 fmriAPA_niigz=../INPUTS/fmri_APA.nii.gz
 fmriAPP_niigz=../INPUTS/fmri_APP.nii.gz
 #seg_niigz=../INPUTS/seg.nii.gz
+pedir="+j"
 
 # Copy files to working dir
 wkdir=../OUTPUTS
@@ -43,11 +44,8 @@ mcflirt -in app -meanvol -out rapp
 # Combine mean fMRIs to make topup input with two vols
 fslmerge -t topup rapa_mean_reg rapp_mean_reg
 
-# Assume AP / j phase encoding direction
-cat > datain.txt <<HERE
-0 1 0 1
-0 -1 0 1
-HERE
+# Make topup phase dir info file
+make_datain.sh "${pedir}"
 
 # Run topup. Save the field map, but realize the sign and amplitude are not meaningful.
 # Use b02b0_1 schedule to avoid issue with odd number of slices
