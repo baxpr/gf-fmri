@@ -21,6 +21,7 @@ cp "${fmriREV_niigz}" "${wkdir}"/rev.nii.gz
 cd "${wkdir}"
 
 # Brain extract (eventually use slant?)
+Echo Brain extraction
 bet t1 t1brain -R -f 0.5 -m
 
 # Gray matter mask from slant
@@ -38,6 +39,7 @@ bet t1 t1brain -R -f 0.5 -m
 #rm tmp.nii.gz
 
 # Motion
+Echo Motion correction
 mcflirt -in fwd -meanvol -out rfwd
 mcflirt -in rev -meanvol -out rrev
 
@@ -49,6 +51,7 @@ make_datain.sh "${pedir}"
 
 # Run topup. Save the field map, but realize the sign and amplitude are not meaningful.
 # Use b02b0_1 schedule to avoid issue with odd number of slices
+Echo TOPUP
 topup --imain=topup --datain=datain.txt --fout=topup_fieldmap_hz --config=b02b0_1.cnf
 
 # Apply topup to APA (this is the one we will actually use)
@@ -60,6 +63,7 @@ applytopup --imain=rrev_mean_reg --inindex=2 --datain=datain.txt \
 	--topup=topup --out=trrev_mean_reg --method=jac
 
 # Register to T1
+echo Coregistration
 epi_reg --epi=trfwd_mean_reg --t1=t1 --t1brain=t1brain --out=ctrfwd_mean_reg
 #epi_reg --epi=trfwd_mean_reg --t1=t1 --t1brain=t1brain --wmseg=wm --out=ctrfwd_mean_reg
 
