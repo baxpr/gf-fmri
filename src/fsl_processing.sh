@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# TODO recharacterize PE as fwd/rev and have an input for +/- i,j,k axis
+# Keep fwd and discard rev. Sanity check to make sure fwd isn't the short one
+
 # Inputs
 t1_niigz=../INPUTS/t1.nii.gz
 fmriAPA_niigz=../INPUTS/fmri_APA.nii.gz
