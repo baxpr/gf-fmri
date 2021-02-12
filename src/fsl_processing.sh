@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# TODO Sanity check to make sure FWD isn't the short one
+# TODO
 # Report correlation of topup fieldmap with actual fieldmap? fslcc but need to resample first
 
 # Inputs
@@ -9,6 +9,7 @@ fmriFWD_niigz=../INPUTS/fmri_FWD.nii.gz
 fmriREV_niigz=../INPUTS/fmri_REV.nii.gz
 #seg_niigz=../INPUTS/seg.nii.gz
 pedir="+j"
+vox_mm=2
 
 # Copy files to working dir
 wkdir=../OUTPUTS
@@ -19,6 +20,12 @@ cp "${fmriREV_niigz}" "${wkdir}"/rev.nii.gz
 
 # Get in wkdir
 cd "${wkdir}"
+
+# Sanity check to make sure FWD isn't the short one
+if [[ $(fslval fwd dim4) -lt $(fslval rev dim4) ]] ; then
+	echo "fmri_FWD has fewer time points than fmri_REV"
+	exit 1
+fi
 
 # Brain extract (eventually use slant?)
 Echo Brain extraction
@@ -54,33 +61,41 @@ make_datain.sh "${pedir}"
 Echo TOPUP
 topup --imain=topup --datain=datain.txt --fout=topup_fieldmap_hz --config=b02b0_1.cnf
 
-# Apply topup to APA (this is the one we will actually use)
+# Apply topup to fwd (this is the data we will actually analyze for fmri)
 applytopup --imain=rfwd_mean_reg --inindex=1 --datain=datain.txt \
 	--topup=topup --out=trfwd_mean_reg --method=jac
 
-# Apply topup to APP - just for reference
+# Apply topup to rev - just for reference
 applytopup --imain=rrev_mean_reg --inindex=2 --datain=datain.txt \
 	--topup=topup --out=trrev_mean_reg --method=jac
 
-# Register to T1
+# Register topup corrected mean fwd to T1
 echo Coregistration
 epi_reg --epi=trfwd_mean_reg --t1=t1 --t1brain=t1brain --out=ctrfwd_mean_reg
 #epi_reg --epi=trfwd_mean_reg --t1=t1 --t1brain=t1brain --wmseg=wm --out=ctrfwd_mean_reg
 
-# Register to T1 without topup - just for reference
-epi_reg --epi=rfwd_mean_reg --t1=t1 --t1brain=t1brain --wmseg=ctrfwd_mean_reg_fast_wmseg --out=crfwd_mean_reg
-#epi_reg --epi=rfwd_mean_reg --t1=t1 --t1brain=t1brain --wmseg=wm --out=crfwd_mean_reg
+# Use flirt to resample to the desired voxel size, overwriting epi_reg output image
+flirt -applyisoxfm "${vox_mm}" -init ctrfwd_mean_reg.mat -in trfwd_mean_reg \
+	-ref t1 -out ctrfwd_mean_reg
 
 # Apply topup to actual time series
 applytopup --imain=rfwd --inindex=1 --datain=datain.txt --topup=topup --out=trfwd --method=jac
 
 # Apply coregistration to the topup-corrected time series
-flirt -applyisoxfm 1.5 -init ctrfwd_mean_reg.mat -in trfwd -ref ctrfwd_mean_reg -out ctrfwd
+flirt -applyisoxfm "${vox_mm}" -init ctrfwd_mean_reg.mat -in trfwd -ref t1 -out ctrfwd
 
-# Apply coreg to the mean topup corrected fmriAPP - just for reference. Same matrix as for APA
-# FIXME THIS DOESN'T WORK (not registered)
-flirt -applyisoxfm 1.5 -init ctrfwd_mean_reg.mat -in trrev_mean_reg -ref ctrfwd_mean_reg \
-	-out ctrrev_mean_reg
+# Apply coreg to the mean topup corrected fmriREV - just for reference. Same matrix as for FWD
+flirt -applyisoxfm "${vox_mm}" -init ctrfwd_mean_reg.mat -in trrev_mean_reg \
+	-ref t1 -out ctrrev_mean_reg
+
+# Register to T1 without topup - just for reference
+epi_reg --epi=rfwd_mean_reg --t1=t1 --t1brain=t1brain --wmseg=ctrfwd_mean_reg_fast_wmseg --out=crfwd_mean_reg
+#epi_reg --epi=rfwd_mean_reg --t1=t1 --t1brain=t1brain --wmseg=wm --out=crfwd_mean_reg
+
+# Use flirt to resample to the desired voxel size, overwriting epi_reg output image
+flirt -applyisoxfm "${vox_mm}" -init crfwd_mean_reg.mat -in rfwd_mean_reg \
+	-ref t1 -out crfwd_mean_reg
+
 
 # Give things more meaningful filenames
 mv ctrfwd_mean_reg.nii.gz coregistered_mean_fmriFWD.nii.gz
