@@ -1,4 +1,14 @@
 
+% Inputs
+deffwd_niigz = '';
+meanfmri_niigz = '';
+fmri_niigz = '';
+eprime_summary_csv = '';
+out_dir = '';
+fwhm = 6;
+hpf = 300;
+
+
 % Warp
 matlabbatch{1}.spm.util.defs.comp{1}.def = ...
 	{'DEF_FWD/y_t1.nii'};
