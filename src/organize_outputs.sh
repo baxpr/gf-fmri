@@ -1,17 +1,17 @@
 #!/usr/bin/env bash
 
 
-## MEANFMRI_TOPUP  - mean fmri images after motion correction and topup but before registration
+## MEANFMRI  - mean fmri images after motion correction and topup but before registration
 # mean_fmriFWD.nii.gz                         FWD mean fmri in native space
 # mean_fmriREV.nii.gz                         REV mean fmri in native space
 
 
-## MEANFMRI_TOPUP_REG - mean fmri images after motion correction, topup, and registration to t1
+## MEANFMRI_REG - mean fmri images after motion correction, topup, and registration to t1
 # coregistered_mean_fmriFWD.nii.gz            FWD mean fmri in native space
 # coregistered_mean_fmriREV.nii.gz            REV mean fmri in native space
 # mean_fmri_to_t1.mat
 
-## FMRI_TOPUP_REG - fmri time series after motion correction, topup, and registration to t1
+## FMRI_REG - fmri time series after motion correction, topup, and registration to t1
 # coregistered_fmriFWD.nii.gz                 fmri time series
 
 
@@ -33,7 +33,7 @@
 # mean_fmriFWD_no_topup.nii.gz
 # mean_fmriREV_no_topup.nii.gz
 
-## MEANFMRI_REG  - images without topup, registered to t1. For evaluation of topup
+## MEANFMRI_REG_NO_TOPUP  - images without topup, registered to t1. For evaluation of topup
 # coregistered_mean_fmriFWD_no_topup.nii.gz
 # coregistered_mean_fmriREV_no_topup.nii.gz
 # mean_fmriFWD_no_topup_to_t1.mat
