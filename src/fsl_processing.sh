@@ -1,47 +1,67 @@
 #!/usr/bin/env bash
 
-# MCFLIRT motion correction. To mean image, and store mats
-mcflirt -in fmri -meanvol -mats -o rfmri
+# Inputs
+t1_niigz=../INPUTS/t1.nii.gz
+fmriAPA_niigz=../INPUTS/fmri_APA.nii.gz
+fmriAPP_niigz=../INPUTS/fmri_APP.nii.gz
 
-# Brain extract using slant
-fslmaths seg -bin -mul t1 t1brain
-bet b0_e1 b0_e1_brain
+# Copy files to working dir
+wkdir=../OUTPUTS
+cp "${t1_niigz}" "${wkdir}"/t1.nii.gz
+cp "${fmriAPA_niigz}" "${wkdir}"/apa.nii.gz
+cp "${fmriAPP_niigz}" "${wkdir}"/app.nii.gz
 
-# Convert Hz field map to rad/s
-# https://www.jiscmail.ac.uk/cgi-bin/wa-jisc.exe?A2=ind1708&L=FSL&D=0&P=58332
-fslmaths b0_e2 -mul 6.28 -mul 0.001 b0_e2_rads
+# Get in wkdir
+cd "${wkdir}"
 
-# Gray matter mask
-fslmaths seg -thr  3.5 -uthr  4.5 -bin -mul -1 -add 1 -mul seg tmp
-fslmaths tmp -thr 10.5 -uthr 11.5 -bin -mul -1 -add 1 -mul tmp tmp
-fslmaths tmp -thr 39.5 -uthr 41.5 -bin -mul -1 -add 1 -mul tmp tmp
-fslmaths tmp -thr 43.5 -uthr 45.5 -bin -mul -1 -add 1 -mul tmp tmp
-fslmaths tmp -thr 48.5 -uthr 52.5 -bin -mul -1 -add 1 -mul tmp tmp
-fslmaths tmp -bin gm
-rm tmp.nii.gz
+# Brain extract (eventually use slant?)
+bet t1 t1brain -R -f 0.5 -m
 
-# White matter mask
-fslmaths seg -thr 39.5 -uthr 41.5 -bin tmp
-fslmaths seg -thr 43.5 -uthr 45.5 -add tmp -bin wm
-rm tmp.nii.gz
+# Motion
+mcflirt -in apa -meanvol -out rapa
+mcflirt -in app -meanvol -out rapp
 
+# Combine mean fMRIs to make topup input with two vols
+fslmerge -t topup rapa_mean_reg rapp_mean_reg
 
-# Register EPI to T1
-epi_reg --epi=rfmri_mean_reg --t1=t1 --t1brain=t1brain --wmseg=wm --out=crfmri_mean_reg
+# Assume AP / j phase encoding direction
+cat > datain.txt <<HERE
+0 1 0 1
+0 -1 0 1
+HERE
 
+# Run topup. Save the field map, but realize the sign and amplitude are not meaningful.
+# Use b02b0_1 schedule to avoid issue with odd number of slices
+topup --imain=topup --datain=datain.txt --fout=topup_fieldmap_hz --config=b02b0_1.cnf
 
-# EPI registration with fieldmap
-es=0.000297832
-epi_reg --epi=rfmri_mean_reg --t1=t1 --t1brain=t1brain --wmseg=wm --out=frfmri_mean_reg \
-        --fmap=b0_e2_rads --fmapmag=b0_e1 --fmapmagbrain=b0_e1_brain --echospacing=$es --pedir=-y
+# Apply topup to APA (this is the one we will actually use)
+applytopup --imain=rapa_mean_reg --inindex=1 --datain=datain.txt \
+	--topup=topup --out=trapa_mean_reg --method=jac
 
+# Apply topup to APP - just for reference
+applytopup --imain=rapp_mean_reg --inindex=1 --datain=datain.txt \
+	--topup=topup --out=trapp_mean_reg --method=jac
 
+# Register to T1
+epi_reg --epi=trapa_mean_reg --t1=t1 --t1brain=t1brain --out=ctrapa_mean_reg
 
-# Files produced
-#
-#   rfmri.mat/MAT_????      Motion correction transform for each volume to mean fMRI
-#   rfmri.nii.gz            Motion corrected/resampled
-#   rfmri_mean_reg.nii.gz   Mean fMRI after motion correction
-#
-#   crfmri_mean_reg.nii.gz  Mean fMRI registered/resampled to T1
-#   crfmri_mean_reg.mat     Transform from mean fMRI to T1
+# Register to T1 without topup - just for reference
+epi_reg --epi=rapa_mean_reg --t1=t1 --t1brain=t1brain --wmseg=ctrapa_mean_reg_fast_wmseg \
+	--out=crapa_mean_reg
+
+# Apply topup to actual time series
+applytopup --imain=rapa --inindex=1 --datain=datain.txt --topup=topup --out=trapa --method=jac
+
+# Apply coregistration to the topup-corrected time series
+flirt -applyisoxfm 2 -init ctrapa_mean_reg.mat -in trapa -ref ctrapa_mean_reg -out ctrapa
+
+# Apply coreg to the mean topup corrected fmriAPP - just for reference. Same matrix as for APA
+flirt -applyisoxfm 2 -init ctrapa_mean_reg.mat -in trapp_mean_reg -ref ctrapa_mean_reg \
+	-out ctrapp_mean_reg
+
+# Give things more meaningful filenames
+mv ctrapa_mean_reg.nii.gz coregistered_mean_fmriAPA.nii.gz
+mv ctrapp_mean_reg.nii.gz coregistered_mean_fmriAPP.nii.gz
+mv ctrapa.nii.gz coregistered_fmriAPA.nii.gz
+mv crapa_mean_reg.nii.gz coregistered_mean_fmriAPA_notopup.nii.gz
+
