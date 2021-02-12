@@ -74,6 +74,7 @@ applytopup --imain=rfwd --inindex=1 --datain=datain.txt --topup=topup --out=trfw
 flirt -applyisoxfm 1.5 -init ctrfwd_mean_reg.mat -in trfwd -ref ctrfwd_mean_reg -out ctrfwd
 
 # Apply coreg to the mean topup corrected fmriAPP - just for reference. Same matrix as for APA
+# FIXME THIS DOESN'T WORK (not registered)
 flirt -applyisoxfm 1.5 -init ctrfwd_mean_reg.mat -in trrev_mean_reg -ref ctrfwd_mean_reg \
 	-out ctrrev_mean_reg
 
