@@ -89,9 +89,12 @@ flirt -applyisoxfm "${vox_mm}" -init ctrfwd_mean_reg.mat -in trfwd -ref t1 -out 
 flirt -applyisoxfm "${vox_mm}" -init ctrfwd_mean_reg.mat -in trrev_mean_reg \
 	-ref t1 -out ctrrev_mean_reg
 
-# Register to T1 without topup - just for reference
+# Register to T1 without topup - just for reference. FWD and REV
 epi_reg --epi=rfwd_mean_reg --t1=t1 --t1brain=t1brain --wmseg=ctrfwd_mean_reg_fast_wmseg --out=crfwd_mean_reg
 #epi_reg --epi=rfwd_mean_reg --t1=t1 --t1brain=t1brain --wmseg=wm --out=crfwd_mean_reg
+
+epi_reg --epi=rrev_mean_reg --t1=t1 --t1brain=t1brain --wmseg=ctrfwd_mean_reg_fast_wmseg --out=crrev_mean_reg
+
 
 # Use flirt to resample to the desired voxel size, overwriting epi_reg output image
 flirt -applyisoxfm "${vox_mm}" -init crfwd_mean_reg.mat -in rfwd_mean_reg \
@@ -109,7 +112,9 @@ mv ctrfwd.nii.gz coregistered_fmriFWD.nii.gz
 mv rfwd_mean_reg.nii.gz mean_fmriFWD_no_topup.nii.gz
 mv rrev_mean_reg.nii.gz mean_fmriREV_no_topup.nii.gz
 mv crfwd_mean_reg.nii.gz coregistered_mean_fmriFWD_no_topup.nii.gz
+mv crrev_mean_reg.nii.gz coregistered_mean_fmriREV_no_topup.nii.gz
 
-mv ctrfwd_mean_reg.mat meanfmriFWD_to_t1.mat
-mv crfwd_mean_reg.mat  meanfmriFWD_no_topup_to_t1.mat
+mv ctrfwd_mean_reg.mat mean_fmri_to_t1.mat
+mv crfwd_mean_reg.mat  mean_fmriFWD_no_topup_to_t1.mat
+mv crrev_mean_reg.mat  mean_fmriREV_no_topup_to_t1.mat
 

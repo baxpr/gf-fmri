@@ -10,7 +10,7 @@
 # coregistered_mean_fmriFWD.nii.gz            FWD mean fmri in native space
 # coregistered_mean_fmriREV.nii.gz            REV mean fmri in native space
 # coregistered_fmriFWD.nii.gz                 fmri time series
-# meanfmriFWD_to_t1.mat
+# mean_fmri_to_t1.mat
 
 ## WMSEG - White matter segmentation used with epi_reg
 # wm.nii.gz                   White matter seg used for registration
@@ -28,8 +28,12 @@
 ## FMRI_NO_TOPUP - images without topup for comparison
 # mean_fmriFWD_no_topup.nii.gz
 # mean_fmriREV_no_topup.nii.gz
+
+## FMRI_REG  - images without topup, registered to t1
 # coregistered_mean_fmriFWD_no_topup.nii.gz
-# meanfmriFWD_no_topup_to_t1.mat
+# coregistered_mean_fmriREV_no_topup.nii.gz
+# mean_fmriFWD_no_topup_to_t1.mat
+# mean_fmriREV_no_topup_to_t1.mat
 
 
 ## FMRI_MNI - fmri images warped to MNI space
