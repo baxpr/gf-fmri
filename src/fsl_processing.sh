@@ -2,7 +2,6 @@
 
 # TODO
 # Report correlation of topup fieldmap with actual fieldmap? fslcc but need to resample first
-# switch from FAST to SLANT
 
 # Inputs
 t1_niigz=../INPUTS/t1.nii.gz
