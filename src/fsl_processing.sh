@@ -103,19 +103,20 @@ fi
 
 # Give things more meaningful filenames
 mv trfwd_mean_reg.nii.gz mean_fmriFWD.nii.gz
-mv trrev_mean_reg.nii.gz mean_fmriREV.nii.gz
 
 mv ctrfwd_mean_reg.nii.gz coregistered_mean_fmriFWD.nii.gz
-mv ctrrev_mean_reg.nii.gz coregistered_mean_fmriREV.nii.gz
 mv ctrfwd.nii.gz coregistered_fmriFWD.nii.gz
 mv ctrfwd_mean_reg.mat corrected_fmri_to_t1.mat
 
 mv rfwd_mean_reg.nii.gz mean_fmriFWD_no_topup.nii.gz
-mv rrev_mean_reg.nii.gz mean_fmriREV_no_topup.nii.gz
 mv crfwd_mean_reg.nii.gz coregistered_mean_fmriFWD_no_topup.nii.gz
-mv crrev_mean_reg.nii.gz coregistered_mean_fmriREV_no_topup.nii.gz
 mv crfwd_mean_reg.mat  mean_fmriFWD_no_topup_to_t1.mat
-mv crrev_mean_reg.mat  mean_fmriREV_no_topup_to_t1.mat
 
-
+if [[ "${run_topup}" == "yes" ]] ; then
+	mv trrev_mean_reg.nii.gz mean_fmriREV.nii.gz
+	mv ctrrev_mean_reg.nii.gz coregistered_mean_fmriREV.nii.gz
+	mv rrev_mean_reg.nii.gz mean_fmriREV_no_topup.nii.gz
+	mv crrev_mean_reg.nii.gz coregistered_mean_fmriREV_no_topup.nii.gz
+	mv crrev_mean_reg.mat  mean_fmriREV_no_topup_to_t1.mat
+fi
 
