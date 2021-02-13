@@ -2,6 +2,7 @@
 
 # TODO
 # Report correlation of topup fieldmap with actual fieldmap? fslcc but need to resample first
+# FIXME if we skip topup, it's because we don't have a REV so we can't use REV then. Check outputs
 
 # Inputs
 t1_niigz=../INPUTS/t1.nii.gz
@@ -11,22 +12,27 @@ seg_niigz=../INPUTS/seg.nii.gz
 pedir="+j"
 vox_mm=1.5
 run_topup=yes
+out_dir=../OUTPUTS
 
 # Copy files to working dir
-wkdir=../OUTPUTS
-cp "${t1_niigz}" "${wkdir}"/t1.nii.gz
-cp "${fmriFWD_niigz}" "${wkdir}"/fwd.nii.gz
-cp "${fmriREV_niigz}" "${wkdir}"/rev.nii.gz
-cp "${seg_niigz}" "${wkdir}"/seg.nii.gz
+cp "${t1_niigz}" "${out_dir}"/t1.nii.gz
+cp "${fmriFWD_niigz}" "${out_dir}"/fwd.nii.gz
+cp "${seg_niigz}" "${out_dir}"/seg.nii.gz
+if [[ "${run_topup}" == "yes" ]] ; then
+	cp "${fmriREV_niigz}" "${out_dir}"/rev.nii.gz
+fi
 
-# Get in wkdir
-cd "${wkdir}"
+# Get in working dir
+cd "${out_dir}"
 
 # Sanity check to make sure FWD isn't the short one
-if [[ $(fslval fwd dim4) -lt $(fslval rev dim4) ]] ; then
-	echo "fmri_FWD has fewer time points than fmri_REV"
-	exit 1
+if [[ "${run_topup}" == "yes" ]] ; then
+	if [[ $(fslval fwd dim4) -lt $(fslval rev dim4) ]] ; then
+		echo "fmri_FWD has fewer time points than fmri_REV"
+		exit 1
+	fi
 fi
+
 
 # Gray matter mask from slant
 fslmaths seg -thr  3.5 -uthr  4.5 -bin -mul -1 -add 1 -mul seg tmp
@@ -45,7 +51,10 @@ rm tmp.nii.gz
 # Motion
 Echo Motion correction
 mcflirt -in fwd -meanvol -out rfwd
-mcflirt -in rev -meanvol -out rrev
+if [[ "${run_topup}" == "yes" ]] ; then
+	mcflirt -in rev -meanvol -out rrev
+fi
+
 
 # Run topup. After this, the 'tr' prefix files always contain the data that will be further
 # processed, but it will only have had topup applied if run_topup option is yes.
@@ -55,7 +64,6 @@ if [[ "${run_topup}" == "yes" ]] ; then
 else
 	echo SKIPPING TOPUP
 	cp rfwd_mean_reg.nii.gz trfwd_mean_reg.nii.gz
-	cp rrev_mean_reg.nii.gz trrev_mean_reg.nii.gz
 	cp rfwd.nii.gz trfwd.nii.gz
 fi
 
@@ -72,19 +80,25 @@ flirt -applyisoxfm "${vox_mm}" -init ctrfwd_mean_reg.mat -in trfwd_mean_reg \
 flirt -applyisoxfm "${vox_mm}" -init ctrfwd_mean_reg.mat -in trfwd -ref t1 -out ctrfwd
 
 # Apply coreg to the mean corrected fmriREV - just for reference. Same matrix as for FWD
-flirt -applyisoxfm "${vox_mm}" -init ctrfwd_mean_reg.mat -in trrev_mean_reg \
-	-ref t1 -out ctrrev_mean_reg
+if [[ "${run_topup}" == "yes" ]] ; then
+	flirt -applyisoxfm "${vox_mm}" -init ctrfwd_mean_reg.mat -in trrev_mean_reg \
+		-ref t1 -out ctrrev_mean_reg
+fi
 
 # Register to T1 without topup - just for reference. FWD and REV. Redundant if we
 # skipped topup earlier but that's ok
 epi_reg --epi=rfwd_mean_reg --t1=t1 --t1brain=t1brain --wmseg=wm --out=crfwd_mean_reg
-epi_reg --epi=rrev_mean_reg --t1=t1 --t1brain=t1brain --wmseg=wm --out=crrev_mean_reg
+if [[ "${run_topup}" == "yes" ]] ; then
+	epi_reg --epi=rrev_mean_reg --t1=t1 --t1brain=t1brain --wmseg=wm --out=crrev_mean_reg
+fi
 
 # Use flirt to resample to the desired voxel size, overwriting epi_reg output image
 flirt -applyisoxfm "${vox_mm}" -init crfwd_mean_reg.mat -in rfwd_mean_reg \
 	-ref t1 -out crfwd_mean_reg
-flirt -applyisoxfm "${vox_mm}" -init crrev_mean_reg.mat -in rrev_mean_reg \
-	-ref t1 -out crrev_mean_reg
+if [[ "${run_topup}" == "yes" ]] ; then
+	flirt -applyisoxfm "${vox_mm}" -init crrev_mean_reg.mat -in rrev_mean_reg \
+		-ref t1 -out crrev_mean_reg
+fi
 
 
 # Give things more meaningful filenames
