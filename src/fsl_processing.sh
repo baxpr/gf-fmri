@@ -1,20 +1,21 @@
 #!/usr/bin/env bash
-
-# TODO
-# Report correlation of topup fieldmap with actual fieldmap? fslcc but need to resample first
-# FIXME if we skip topup, it's because we don't have a REV so we can't use REV then. Check outputs
+#
+# Motion correction, topup, and registration to T1 for an fMRI time series 
+# with a matched time series or volume acquired with reverse phase encoding
+# direction. Optionally, skip the topup step if the reverse phase encoded
+# images aren't available.
 
 # Inputs
 t1_niigz=../INPUTS/t1.nii.gz
 mt1_niigz=../INPUTS/mt1.nii.gz
 fmriFWD_niigz=../INPUTS/fmri_FWD.nii.gz
-#fmriREV_niigz=../INPUTS/fmri_REV.nii.gz
+fmriREV_niigz=../INPUTS/fmri_REV.nii.gz
 seg_niigz=../INPUTS/seg.nii.gz
 icv_niigz=../INPUTS/p0t1.nii.gz   # cat12 ICV_NATIVE
 pedir="+j"
 vox_mm=1.5
-run_topup=no
-out_dir=../OUTPUTS_notopup
+run_topup=yes
+out_dir=../OUTPUTS_topup
 
 # Copy files to working dir - use cat12 T1s
 cp "${mt1_niigz}" "${out_dir}"/t1.nii.gz
@@ -36,7 +37,6 @@ if [[ "${run_topup}" == "yes" ]] ; then
 	fi
 fi
 
-
 # Gray matter mask from slant
 fslmaths seg -thr  3.5 -uthr  4.5 -bin -mul -1 -add 1 -mul seg tmp
 fslmaths tmp -thr 10.5 -uthr 11.5 -bin -mul -1 -add 1 -mul tmp tmp
@@ -52,7 +52,7 @@ fslmaths seg -thr 43.5 -uthr 45.5 -add tmp -bin wm
 rm tmp.nii.gz
 
 
-# Motion
+# Motion correction
 Echo Motion correction
 mcflirt -in fwd -meanvol -out rfwd
 if [[ "${run_topup}" == "yes" ]] ; then
