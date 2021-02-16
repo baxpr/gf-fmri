@@ -6,16 +6,19 @@
 
 # Inputs
 t1_niigz=../INPUTS/t1.nii.gz
+mt1_niigz=../INPUTS/mt1.nii.gz
 fmriFWD_niigz=../INPUTS/fmri_FWD.nii.gz
-fmriREV_niigz=../INPUTS/fmri_REV.nii.gz
+#fmriREV_niigz=../INPUTS/fmri_REV.nii.gz
 seg_niigz=../INPUTS/seg.nii.gz
+icv_niigz=../INPUTS/p0t1.nii.gz   # cat12 ICV_NATIVE
 pedir="+j"
 vox_mm=1.5
-run_topup=yes
-out_dir=../OUTPUTS
+run_topup=no
+out_dir=../OUTPUTS_notopup
 
-# Copy files to working dir
-cp "${t1_niigz}" "${out_dir}"/t1.nii.gz
+# Copy files to working dir - use cat12 T1s
+cp "${mt1_niigz}" "${out_dir}"/t1.nii.gz
+cp "${icv_niigz}" "${out_dir}"/t1brain.nii.gz
 cp "${fmriFWD_niigz}" "${out_dir}"/fwd.nii.gz
 cp "${seg_niigz}" "${out_dir}"/seg.nii.gz
 if [[ "${run_topup}" == "yes" ]] ; then
@@ -47,6 +50,7 @@ rm tmp.nii.gz
 fslmaths seg -thr 39.5 -uthr 41.5 -bin tmp
 fslmaths seg -thr 43.5 -uthr 45.5 -add tmp -bin wm
 rm tmp.nii.gz
+
 
 # Motion
 Echo Motion correction

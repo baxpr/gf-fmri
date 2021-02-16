@@ -1,5 +1,6 @@
-INPUTS
-OUTPUTS
+INPUTS*
+OUTPUTS*
 local*
 *.simg
 *.asv
+.DS_Store
