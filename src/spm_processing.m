@@ -1,8 +1,9 @@
 
 % TODO 
+% Add motion params to model
 % PDF to show filtered design matrix to verify ok hpf
 % PDF to show activation map similar to NDW_WM_v2
-% FIXME verify csv read works for all tasks
+% Verify csv read works for all tasks
 
 % Inputs
 deffwd_niigz = '../INPUTS/y_t1.nii.gz';
