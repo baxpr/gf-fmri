@@ -7,10 +7,10 @@
 
 % Inputs
 deffwd_niigz = '../INPUTS/y_t1.nii.gz';
-meanfmri_niigz = '../OUTPUTS_topup/coregistered_mean_fmriFWD.nii.gz';
-fmri_niigz = '../OUTPUTS_topup/coregistered_fmriFWD.nii.gz';
+meanfmri_niigz = '../OUTPUTS_notopup/coregistered_mean_fmriFWD.nii.gz';
+fmri_niigz = '../OUTPUTS_notopup/coregistered_fmriFWD.nii.gz';
 eprime_summary_csv = '../INPUTS/eprime_summary_WM.csv';
-out_dir = '../OUTPUTS_spm';
+out_dir = '../OUTPUTS_spm_notopup';
 fwhm = 4;
 hpf = 300;
 task = 'WM';
