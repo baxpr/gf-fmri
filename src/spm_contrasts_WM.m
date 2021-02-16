@@ -1,6 +1,8 @@
+function spm_contrasts_WM(spm_dir,conds_mat)
 
-load('conds.mat')
-matlabbatch{1}.spm.stats.con.spmmat = {'spm_out/SPM.mat'};
+load(conds_mat,'names');
+clear matlabbatch
+matlabbatch{1}.spm.stats.con.spmmat = {[spm_dir '/SPM.mat']};
 matlabbatch{1}.spm.stats.con.delete = 1;
 c = 0;
 
@@ -206,3 +208,7 @@ for k = 1:numc
 	matlabbatch{1}.spm.stats.con.consess{c}.tcon.sessrep = 'replsc';
 end
 
+
+
+%% Run it
+spm_jobman('run',matlabbatch);

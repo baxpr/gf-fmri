@@ -1,4 +1,4 @@
-function spm_first_level_stats(spm_dir,fmri_nii,out_dir)
+function spm_first_level_stats(hpf,spm_dir,task,conds_mat,fmri_nii,out_dir)
 
 
 %% First level stats
@@ -27,7 +27,7 @@ spm_jobman('run',matlabbatch);
 
 %% Estimate
 clear matlabbatch
-matlabbatch{1}.spm.stats.fmri_est.spmmat = {spm_dir};
+matlabbatch{1}.spm.stats.fmri_est.spmmat = {[spm_dir '/SPM.mat']};
 matlabbatch{1}.spm.stats.fmri_est.write_residuals = 0;
 matlabbatch{1}.spm.stats.fmri_est.method.Classical = 1;
 spm_jobman('run',matlabbatch);
@@ -36,7 +36,7 @@ spm_jobman('run',matlabbatch);
 %% Contrasts
 switch task
 	case 'WM'
-		spm_contrasts_WM(spm_dir)
+		spm_contrasts_WM(spm_dir,conds_mat)
 	otherwise
 		error('Task %s is unknown',task)
 end
