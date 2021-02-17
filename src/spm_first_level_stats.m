@@ -1,4 +1,4 @@
-function spm_first_level_stats(hpf,spm_dir,task,conds_mat,fmri_nii,out_dir)
+function spm_first_level_stats(hpf,spm_dir,task,conds_mat,motion_par,fmri_nii,out_dir)
 
 
 %% First level stats
@@ -13,7 +13,7 @@ matlabbatch{1}.spm.stats.fmri_spec.sess.cond = ...
 	struct('name', {}, 'onset', {}, 'duration', {}, 'tmod', {}, 'pmod', {}, 'orth', {});
 matlabbatch{1}.spm.stats.fmri_spec.sess.multi = {[out_dir '/conds.mat']};
 matlabbatch{1}.spm.stats.fmri_spec.sess.regress = struct('name', {}, 'val', {});
-matlabbatch{1}.spm.stats.fmri_spec.sess.multi_reg = {''};
+matlabbatch{1}.spm.stats.fmri_spec.sess.multi_reg = {motion_par};
 matlabbatch{1}.spm.stats.fmri_spec.sess.hpf = hpf;
 matlabbatch{1}.spm.stats.fmri_spec.fact = struct('name', {}, 'levels', {});
 matlabbatch{1}.spm.stats.fmri_spec.bases.hrf.derivs = [0 0];

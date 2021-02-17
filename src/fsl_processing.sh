@@ -54,7 +54,7 @@ rm tmp.nii.gz
 
 # Motion correction
 Echo Motion correction
-mcflirt -in fwd -meanvol -out rfwd -mats
+mcflirt -in fwd -meanvol -out rfwd -plots
 if [[ "${run_topup}" == "yes" ]] ; then
 	mcflirt -in rev -meanvol -out rrev
 fi
