@@ -6,11 +6,11 @@
 % Verify csv read works for all tasks
 
 % Inputs
-deffwd_niigz = '../INPUTS/y_t1.nii.gz';
-meanfmri_niigz = '../OUTPUTS_notopup/coregistered_mean_fmriFWD.nii.gz';
-fmri_niigz = '../OUTPUTS_notopup/coregistered_fmriFWD.nii.gz';
-eprime_summary_csv = '../INPUTS/eprime_summary_WM.csv';
-out_dir = '../OUTPUTS_spm_notopup';
+deffwd_niigz = '../INPUTS_WM/y_t1.nii.gz';
+meanfmri_niigz = '../OUTPUTS_WM/coregistered_mean_fmriFWD.nii.gz';
+fmri_niigz = '../OUTPUTS_WM/coregistered_fmriFWD.nii.gz';
+eprime_summary_csv = '../INPUTS_WM/eprime_summary_WM.csv';
+out_dir = '../OUTPUTS_WM_spm';
 fwhm = 4;
 hpf = 300;
 task = 'WM';

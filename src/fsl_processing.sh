@@ -6,16 +6,16 @@
 # images aren't available.
 
 # Inputs
-t1_niigz=../INPUTS/t1.nii.gz
-mt1_niigz=../INPUTS/mt1.nii.gz
-fmriFWD_niigz=../INPUTS/fmri_FWD.nii.gz
-fmriREV_niigz=../INPUTS/fmri_REV.nii.gz
-seg_niigz=../INPUTS/seg.nii.gz
-icv_niigz=../INPUTS/p0t1.nii.gz   # cat12 ICV_NATIVE
+t1_niigz=../INPUTS_WM/t1.nii.gz
+mt1_niigz=../INPUTS_WM/mt1.nii.gz
+fmriFWD_niigz=../INPUTS_WM/fmri_FWD.nii.gz
+fmriREV_niigz=../INPUTS_WM/fmri_REV.nii.gz
+seg_niigz=../INPUTS_WM/seg.nii.gz
+icv_niigz=../INPUTS_WM/p0t1.nii.gz   # cat12 ICV_NATIVE
 pedir="+j"
 vox_mm=1.5
 run_topup=yes
-out_dir=../OUTPUTS_topup
+out_dir=../OUTPUTS_WM
 
 # Copy files to working dir - use cat12 T1s
 cp "${mt1_niigz}" "${out_dir}"/t1.nii.gz
@@ -54,7 +54,7 @@ rm tmp.nii.gz
 
 # Motion correction
 Echo Motion correction
-mcflirt -in fwd -meanvol -out rfwd
+mcflirt -in fwd -meanvol -out rfwd -mats
 if [[ "${run_topup}" == "yes" ]] ; then
 	mcflirt -in rev -meanvol -out rrev
 fi
