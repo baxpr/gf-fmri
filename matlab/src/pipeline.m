@@ -1,6 +1,5 @@
 
 % TODO 
-% Add motion params to model
 % PDF to show filtered design matrix to verify ok hpf
 % PDF to show activation map similar to NDW_WM_v2
 % Verify csv read works for all tasks
