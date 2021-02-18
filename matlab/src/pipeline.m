@@ -7,7 +7,6 @@ function pipeline(deffwd_niigz,meanfmri_niigz,fmri_niigz,eprime_summary_csv, ...
 % Verify csv read works for all tasks
 
 
-
 %% Copy inputs to out_dir and unzip
 % Use hardcoded filenames hereafter for convenience
 copyfile(deffwd_niigz,[out_dir '/y_deffwd.nii.gz'])
