@@ -5,15 +5,15 @@
 % Verify csv read works for all tasks
 
 % Inputs
-deffwd_niigz = '../../INPUTS_Oddball/y_t1.nii.gz';
-meanfmri_niigz = '../../OUTPUTS_Oddball/coregistered_mean_fmriFWD.nii.gz';
-fmri_niigz = '../../OUTPUTS_Oddball/coregistered_fmriFWD.nii.gz';
-eprime_summary_csv = '../../INPUTS_Oddball/eprime_summary_Oddball.csv';
-motion_par = '../../OUTPUTS_Oddball/rfwd.par';
-out_dir = '../../OUTPUTS_Oddball_spm';
+deffwd_niigz = '../../INPUTS_SPT/y_t1.nii.gz';
+meanfmri_niigz = '../../OUTPUTS_SPT/coregistered_mean_fmriFWD.nii.gz';
+fmri_niigz = '../../OUTPUTS_SPT/coregistered_fmriFWD.nii.gz';
+eprime_summary_csv = '../../INPUTS_SPT/eprime_summary_SPT.csv';
+motion_par = '../../OUTPUTS_SPT/rfwd.par';
+out_dir = '../../OUTPUTS_SPT_spm';
 fwhm = 4;
 hpf = 300;
-task = 'Oddball';
+task = 'SPT';
 
 
 %% Copy inputs to out_dir and unzip
