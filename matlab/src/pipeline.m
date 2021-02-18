@@ -1,19 +1,11 @@
+function pipeline(deffwd_niigz,meanfmri_niigz,fmri_niigz,eprime_summary_csv, ...
+	motion_par,out_dir,fwhm,hpf,task)
 
 % TODO 
 % PDF to show filtered design matrix to verify ok hpf
 % PDF to show activation map similar to NDW_WM_v2
 % Verify csv read works for all tasks
 
-% Inputs
-deffwd_niigz = '../../INPUTS_SPT/y_t1.nii.gz';
-meanfmri_niigz = '../../OUTPUTS_SPT/coregistered_mean_fmriFWD.nii.gz';
-fmri_niigz = '../../OUTPUTS_SPT/coregistered_fmriFWD.nii.gz';
-eprime_summary_csv = '../../INPUTS_SPT/eprime_summary_SPT.csv';
-motion_par = '../../OUTPUTS_SPT/rfwd.par';
-out_dir = '../../OUTPUTS_SPT_spm';
-fwhm = 4;
-hpf = 300;
-task = 'SPT';
 
 
 %% Copy inputs to out_dir and unzip
