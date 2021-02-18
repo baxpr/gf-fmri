@@ -209,6 +209,20 @@ for k = 1:numc
 end
 
 
+% Motion
+SPM = load([spm_dir '/SPM.mat']);
+mot_inds = strncmp('Sn(1) R',SPM.SPM.xX.name,7);
+mot_indsf = find(mot_inds);
+mot_con = zeros(sum(mot_inds),size(mot_inds,2));
+for m = 1:sum(mot_inds)
+	mot_con(m,mot_indsf(m)) = 1;
+end
+c = c + 1;
+matlabbatch{1}.spm.stats.con.consess{c}.fcon.name = 'Motion';
+matlabbatch{1}.spm.stats.con.consess{c}.fcon.weights = mot_con;
+matlabbatch{1}.spm.stats.con.consess{c}.fcon.sessrep = 'replsc';
+
+
 
 %% Run it
 spm_jobman('run',matlabbatch);
