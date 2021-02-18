@@ -7,17 +7,11 @@ matlabbatch{1}.spm.stats.con.delete = 1;
 c = 0;
 
 
-% Oddball and foil trials, silence
+% Oddball vs foil trials, silence
 c = c + 1;
-matlabbatch{1}.spm.stats.con.consess{c}.tcon.name = 'Oddball';
+matlabbatch{1}.spm.stats.con.consess{c}.tcon.name = 'Oddball gt Foil';
 matlabbatch{1}.spm.stats.con.consess{c}.tcon.weights = ...
-	1.0 * startsWith(names,'Oddball');
-matlabbatch{1}.spm.stats.con.consess{c}.tcon.sessrep = 'replsc';
-
-c = c + 1;
-matlabbatch{1}.spm.stats.con.consess{c}.tcon.name = 'Foil';
-matlabbatch{1}.spm.stats.con.consess{c}.tcon.weights = ...
-	1.0 * startsWith(names,'Tone');
+	startsWith(names,'Oddball') - startsWith(names,'Tone');
 matlabbatch{1}.spm.stats.con.consess{c}.tcon.sessrep = 'replsc';
 
 c = c + 1;
@@ -26,6 +20,17 @@ matlabbatch{1}.spm.stats.con.consess{c}.tcon.weights = ...
 	1.0 * startsWith(names,'Silence');
 matlabbatch{1}.spm.stats.con.consess{c}.tcon.sessrep = 'replsc';
 
+
+% Inverse of all existing contrasts since SPM won't show us both sides
+numc = numel(matlabbatch{1}.spm.stats.con.consess);
+for k = 1:numc
+	c = c + 1;
+	matlabbatch{1}.spm.stats.con.consess{c}.tcon.name = ...
+		['Neg ' matlabbatch{1}.spm.stats.con.consess{c-numc}.tcon.name];
+	matlabbatch{1}.spm.stats.con.consess{c}.tcon.weights = ...
+		- matlabbatch{1}.spm.stats.con.consess{c-numc}.tcon.weights;
+	matlabbatch{1}.spm.stats.con.consess{c}.tcon.sessrep = 'replsc';
+end
 
 
 % Motion - these get named "SN(1) R?" by virtue of being specified via the
