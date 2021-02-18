@@ -209,7 +209,8 @@ for k = 1:numc
 end
 
 
-% Motion
+% Motion - these get named "SN(1) R?" by virtue of being specified via the
+% multi_reg option
 SPM = load([spm_dir '/SPM.mat']);
 mot_inds = strncmp('Sn(1) R',SPM.SPM.xX.name,7);
 mot_indsf = find(mot_inds);
