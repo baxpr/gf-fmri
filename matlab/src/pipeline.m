@@ -55,15 +55,21 @@ spm_jobman('run',matlabbatch);
 
 %% Save condition info into SPM-style .mat
 % Read the csv once to get the size, then again to specify field format.
-% Matlab is still not clever enough to suss this out on its own
+% Matlab is still not clever enough to suss this out on its own. Also there
+% are some task-specific things here, e.g. skipping the "Tone" (Foil) event
+% for the Oddball task.
 names = {}; onsets = {}; durations = {};
 ep = readtable([out_dir '/eprime_summary.csv'],'Delimiter','comma');
 ep = readtable([out_dir '/eprime_summary.csv'], ...
 	'Format',repmat('%q',1,size(ep,2)));
 for c = 1:height(ep)
-	names{c,1} = ep.Condition{c};
-	onsets{c,1} = eval(ep.OnsetsSec{c});
-	durations{c,1} = eval(ep.DurationsSec{c});
+	if strcmp(task,'Oddball') && strcmp(ep.Condition{c},'Tone')
+		% Skip this condition
+	else
+		names{end+1,1} = ep.Condition{c};
+		onsets{end+1,1} = eval(ep.OnsetsSec{c});
+		durations{end+1,1} = eval(ep.DurationsSec{c});
+	end
 end
 conds_mat = [out_dir '/conds.mat'];
 save(conds_mat,'names','onsets','durations');

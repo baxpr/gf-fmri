@@ -9,9 +9,9 @@ c = 0;
 
 % Oddball vs foil trials, silence
 c = c + 1;
-matlabbatch{1}.spm.stats.con.consess{c}.tcon.name = 'Oddball gt Foil';
+matlabbatch{1}.spm.stats.con.consess{c}.tcon.name = 'Oddball';
 matlabbatch{1}.spm.stats.con.consess{c}.tcon.weights = ...
-	startsWith(names,'Oddball') - startsWith(names,'Tone');
+	1.0 * startsWith(names,'Oddball');
 matlabbatch{1}.spm.stats.con.consess{c}.tcon.sessrep = 'replsc';
 
 c = c + 1;
