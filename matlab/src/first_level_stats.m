@@ -35,6 +35,8 @@ spm_jobman('run',matlabbatch);
 
 %% Contrasts
 switch task
+	case 'Oddball'
+		contrasts_Oddball(spm_dir,conds_mat)
 	case 'WM'
 		contrasts_WM(spm_dir,conds_mat)
 	otherwise

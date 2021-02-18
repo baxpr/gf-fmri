@@ -6,15 +6,15 @@
 % Verify csv read works for all tasks
 
 % Inputs
-deffwd_niigz = '../INPUTS_WM/y_t1.nii.gz';
-meanfmri_niigz = '../OUTPUTS_WM/coregistered_mean_fmriFWD.nii.gz';
-fmri_niigz = '../OUTPUTS_WM/coregistered_fmriFWD.nii.gz';
-eprime_summary_csv = '../INPUTS_WM/eprime_summary_WM.csv';
-motion_par = '../OUTPUTS_WM/rfwd.par';
-out_dir = '../OUTPUTS_WM_spm';
+deffwd_niigz = '../INPUTS_Oddball/y_t1.nii.gz';
+meanfmri_niigz = '../OUTPUTS_Oddball/coregistered_mean_fmriFWD.nii.gz';
+fmri_niigz = '../OUTPUTS_Oddball/coregistered_fmriFWD.nii.gz';
+eprime_summary_csv = '../INPUTS_Oddball/eprime_summary_Oddball.csv';
+motion_par = '../OUTPUTS_Oddball/rfwd.par';
+out_dir = '../OUTPUTS_Oddball_spm';
 fwhm = 4;
 hpf = 300;
-task = 'WM';
+task = 'Oddball';
 
 
 %% Copy inputs to out_dir and unzip
@@ -67,9 +67,10 @@ conds_mat = [out_dir '/conds.mat'];
 save(conds_mat,'names','onsets','durations');
 
 
-%% Rename motion params so SPM can work with it
+%% Rename and rescale motion params so SPM can work with it
 motion_txt = [out_dir '/motion_params.txt'];
-copyfile(motion_par,motion_txt);
+mot = zscore(load(motion_par));
+save(motion_txt,'mot','-ascii');
 
 
 %% First level stats
