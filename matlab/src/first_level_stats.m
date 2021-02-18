@@ -1,4 +1,4 @@
-function spm_first_level_stats(hpf,spm_dir,task,conds_mat,motion_txt,fmri_nii,out_dir)
+function first_level_stats(hpf,spm_dir,task,conds_mat,motion_txt,fmri_nii,out_dir)
 
 
 %% First level stats
@@ -36,7 +36,7 @@ spm_jobman('run',matlabbatch);
 %% Contrasts
 switch task
 	case 'WM'
-		spm_contrasts_WM(spm_dir,conds_mat)
+		contrasts_WM(spm_dir,conds_mat)
 	otherwise
 		error('Task %s is unknown',task)
 end
