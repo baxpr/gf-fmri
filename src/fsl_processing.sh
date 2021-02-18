@@ -6,16 +6,15 @@
 # images aren't available.
 
 # Inputs
-t1_niigz=../INPUTS_WM/t1.nii.gz
-mt1_niigz=../INPUTS_WM/mt1.nii.gz
-fmriFWD_niigz=../INPUTS_WM/fmri_FWD.nii.gz
-fmriREV_niigz=../INPUTS_WM/fmri_REV.nii.gz
-seg_niigz=../INPUTS_WM/seg.nii.gz
-icv_niigz=../INPUTS_WM/p0t1.nii.gz   # cat12 ICV_NATIVE
+mt1_niigz=../INPUTS_Oddball/mt1.nii.gz
+fmriFWD_niigz=../INPUTS_Oddball/fmri_FWD.nii.gz
+fmriREV_niigz=../INPUTS_Oddball/fmri_REV.nii.gz
+seg_niigz=../INPUTS_Oddball/seg.nii.gz
+icv_niigz=../INPUTS_Oddball/p0t1.nii.gz   # cat12 ICV_NATIVE
 pedir="+j"
 vox_mm=1.5
 run_topup=yes
-out_dir=../OUTPUTS_WM
+out_dir=../OUTPUTS_Oddball
 
 # Copy files to working dir - use cat12 T1s
 cp "${mt1_niigz}" "${out_dir}"/t1.nii.gz

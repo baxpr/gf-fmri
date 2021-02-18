@@ -68,7 +68,7 @@ save(conds_mat,'names','onsets','durations');
 
 
 %% Rename motion params so SPM can work with it
-motion_txt = [out_dir '/motion_params.txt']
+motion_txt = [out_dir '/motion_params.txt'];
 copyfile(motion_par,motion_txt);
 
 
