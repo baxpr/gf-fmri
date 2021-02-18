@@ -7,7 +7,7 @@ matlabbatch{1}.spm.stats.con.delete = 1;
 c = 0;
 
 
-% Oddball vs foil trials, silence
+% Scene, Scramble
 c = c + 1;
 matlabbatch{1}.spm.stats.con.consess{c}.tcon.name = 'Scene';
 matlabbatch{1}.spm.stats.con.consess{c}.tcon.weights = ...
@@ -19,7 +19,6 @@ matlabbatch{1}.spm.stats.con.consess{c}.tcon.name = 'Scramble';
 matlabbatch{1}.spm.stats.con.consess{c}.tcon.weights = ...
 	1.0 * startsWith(names,'Scramble');
 matlabbatch{1}.spm.stats.con.consess{c}.tcon.sessrep = 'replsc';
-
 
 c = c + 1;
 matlabbatch{1}.spm.stats.con.consess{c}.tcon.name = 'Scene gt Scramble';
