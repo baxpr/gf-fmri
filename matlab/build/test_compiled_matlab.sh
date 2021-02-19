@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
-../bin/run_spm12.sh /usr/local/MATLAB/MATLAB_Runtime/v97 \
-function pipeline \
+../bin/run_spm12.sh /usr/local/MATLAB/MATLAB_Runtime/v97 function pipeline \
 deffwd_niigz ../../INPUTS/y_t1.nii.gz \
 meanfmri_niigz ../../INPUTS/OUTPUTS_SPT/coregistered_mean_fmriFWD.nii.gz \
 fmri_niigz ../../INPUTS/OUTPUTS_SPT/coregistered_fmriFWD.nii.gz \
