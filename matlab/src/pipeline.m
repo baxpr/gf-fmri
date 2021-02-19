@@ -90,7 +90,8 @@ save(conds_mat,'names','onsets','durations');
 
 %% Rename and rescale motion params so SPM can work with it
 motion_txt = [out_dir '/motion_params.txt'];
-mot = zscore(load(inp.motion_par));
+mot = load(inp.motion_par);
+mot = zscore(mot);
 save(motion_txt,'mot','-ascii');
 
 
