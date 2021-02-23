@@ -80,6 +80,10 @@ echo "pedir:    ${pedir}"
 echo "out_dir:  ${out_dir}"
 
 
+# FSL setup
+. ${FSLDIR}/etc/fslconf/fsl.sh
+
+
 # FSL preprocessing: motion correction, topup, coregistration to T1
 fsl_processing.sh
 

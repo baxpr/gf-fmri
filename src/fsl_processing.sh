@@ -4,17 +4,8 @@
 # with a matched time series or volume acquired with reverse phase encoding
 # direction. Optionally, skip the topup step if the reverse phase encoded
 # images aren't available.
-
-# Inputs
-mt1_niigz=../INPUTS_SPT/mt1.nii.gz
-fmriFWD_niigz=../INPUTS_SPT/fmri_FWD.nii.gz
-fmriREV_niigz=../INPUTS_SPT/fmri_REV.nii.gz
-seg_niigz=../INPUTS_SPT/seg.nii.gz
-icv_niigz=../INPUTS_SPT/p0t1.nii.gz   # cat12 ICV_NATIVE
-pedir="+j"
-vox_mm=1.5
-run_topup=yes
-out_dir=../OUTPUTS_SPT
+#
+# Relies on env vars exported from pipeline.sh to get a lot of arguments
 
 # Copy files to working dir - use cat12 T1s
 cp "${mt1_niigz}" "${out_dir}"/t1.nii.gz
