@@ -118,3 +118,7 @@ first_level_stats( ...
 	);
 
 
+%% Exit
+if isdeployed
+	exit
+end

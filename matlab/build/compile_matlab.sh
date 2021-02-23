@@ -15,7 +15,7 @@
 
 
 # Where to find SPM12 on our compilation machine
-SPM_PATH=/wkdir/matlab/src/spm12_r7771
+SPM_PATH=/wkdir/matlab/external/spm12_r7771
 
 # We may need to add Matlab to the path on the compilation machine
 export PATH=/usr/local/MATLAB/R2019b/bin:${PATH}
@@ -26,7 +26,7 @@ export PATH=/usr/local/MATLAB/R2019b/bin:${PATH}
 rm -fr ${SPM_PATH}/external
 
 # We use SPM12's standalone tool, but adding our own code to the compilation path
-WD=`pwd`
+WD=$(pwd)
 matlab -nodisplay -nodesktop -nosplash -sd "${WD}" -r \
     "spm_make_standalone_local('${SPM_PATH}','${WD}/../bin','${WD}/../src'); exit"
 

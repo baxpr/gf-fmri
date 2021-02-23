@@ -10,3 +10,11 @@ out_dir ../../OUTPUTS \
 fwhm 4 \
 hpf 300 \
 task SPT
+
+
+
+exit 0
+
+../bin/run_spm12.sh /usr/local/MATLAB/MATLAB_Runtime/v97 function exit
+
+
