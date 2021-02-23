@@ -85,11 +85,21 @@ fsl_processing.sh
 
 
 # SPM processing: Warp to atlas space, smooth, first level stats, contrast images
-
+"${matlab_dir}"/run_spm12.sh "${mcr_dir}" function pipeline \
+	deffwd_niigz "${deffwd_niigz}" \
+	meanfmri_niigz "${out_dir}"/coregistered_mean_fmriFWD.nii.gz \
+	fmri_niigz "${out_dir}"/coregistered_fmriFWD.nii.gz \
+	eprime_summary_csv "${eprime_summary_csv}" \
+	motion_par "${out_dir}"/rfwd.par \
+	out_dir "${out_dir}" \
+	fwhm "${fwhm}" \
+	hpf "${hpf}" \
+	task "${task}"
+	
 
 # PDF
-make_pdf.sh
+#make_pdf.sh
 
 
 # Organize outputs for XNAT
-organize_outputs.sh
+#organize_outputs.sh
