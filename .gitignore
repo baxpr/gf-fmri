@@ -4,6 +4,6 @@ local*
 *.simg
 *.asv
 .DS_Store
-matlab/external/spm12_r7771
+external/spm12_r7771
 matlab_home
 matlab/bin/spm12_mcr
