@@ -49,6 +49,9 @@ From: ubuntu:20.04
   tar -zxf fsl-${fslver}-centos7_64.tar.gz
   rm fsl-${fslver}-centos7_64.tar.gz
 
+  # Run the FSL python installer
+  ${FSLDIR}/etc/fslconf/fslpython_install.sh
+  
   # Create input/output directories for binding
   mkdir /INPUTS && mkdir /OUTPUTS
 
