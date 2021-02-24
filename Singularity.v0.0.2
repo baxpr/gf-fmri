@@ -49,6 +49,11 @@ From: ubuntu:20.04
   tar -zxf fsl-${fslver}-centos7_64.tar.gz
   rm fsl-${fslver}-centos7_64.tar.gz
 
+  # FSL setup
+  export FSLDIR=/usr/local/fsl
+  . ${FSLDIR}/etc/fslconf/fsl.sh
+  export PATH=${FSLDIR}/bin:${PATH}
+  
   # Run the FSL python installer
   ${FSLDIR}/etc/fslconf/fslpython_install.sh
   
