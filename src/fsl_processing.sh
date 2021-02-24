@@ -43,7 +43,7 @@ rm tmp.nii.gz
 
 
 # Motion correction
-Echo Motion correction
+echo Motion correction
 mcflirt -in fwd -meanvol -out rfwd -plots
 if [[ "${run_topup}" == "yes" ]] ; then
 	mcflirt -in rev -meanvol -out rrev
@@ -53,7 +53,7 @@ fi
 # Run topup. After this, the 'tr' prefix files always contain the data that will be further
 # processed, but it will only have had topup applied if run_topup option is yes.
 if [[ "${run_topup}" == "yes" ]] ; then
-	Echo Running TOPUP
+	echo Running TOPUP
 	run_topup.sh "${pedir}" rfwd_mean_reg rrev_mean_reg rfwd
 else
 	echo SKIPPING TOPUP

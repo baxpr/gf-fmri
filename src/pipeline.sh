@@ -77,6 +77,8 @@ export thedate=$(date)
 echo "${project} ${subject} ${session} ${scan}"
 echo ${thedate}
 echo "pedir:    ${pedir}"
+echo "fwhm:     ${fwhm}"
+echo "hpf:      ${hpf}"
 echo "out_dir:  ${out_dir}"
 
 
