@@ -13,7 +13,7 @@ export vox_mm=1.5
 export run_topup=yes
 export src_dir=/opt/gf-fmri/src
 export matlab_dir=/opt/gf-fmri/matlab/bin
-export mcr_dir=/usr/local/MATLAB/MATLAB_Runtime/v92
+export mcr_dir=/usr/local/MATLAB/MATLAB_Runtime/v97
 export out_dir=/OUTPUTS
 
 # Parse options
