@@ -38,7 +38,9 @@ copyfile(inp.wmt1_niigz,[out_dir '/wmt1.nii.gz'])
 copyfile(inp.meanfmri_niigz,[out_dir '/meanfmri.nii.gz'])
 copyfile(inp.fmri_niigz,[out_dir '/fmri.nii.gz'])
 copyfile(inp.eprime_summary_csv,[out_dir '/eprime_summary.csv']);
-system([' gunzip -f ' out_dir '/*.nii.gz']);
+for niigz = {'y_deffwd.nii.gz','wmt1.nii.gz','meanfmri.nii.gz','fmri.nii.gz'}
+	system([' gunzip -f ' out_dir filesep niigz{1}]);
+end
 
 
 %% Warp
