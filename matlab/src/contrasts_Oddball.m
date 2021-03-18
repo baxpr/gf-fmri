@@ -7,17 +7,11 @@ matlabbatch{1}.spm.stats.con.delete = 1;
 c = 0;
 
 
-% Oddball vs foil trials, silence
+% Oddball vs foil trials
 c = c + 1;
-matlabbatch{1}.spm.stats.con.consess{c}.tcon.name = 'Oddball';
+matlabbatch{1}.spm.stats.con.consess{c}.tcon.name = 'Deviant gt Standard';
 matlabbatch{1}.spm.stats.con.consess{c}.tcon.weights = ...
-	1.0 * startsWith(names,'Oddball');
-matlabbatch{1}.spm.stats.con.consess{c}.tcon.sessrep = 'replsc';
-
-c = c + 1;
-matlabbatch{1}.spm.stats.con.consess{c}.tcon.name = 'Silence';
-matlabbatch{1}.spm.stats.con.consess{c}.tcon.weights = ...
-	1.0 * startsWith(names,'Silence');
+	1.0 * startsWith(names,'Deviant') - 1.0 * startsWith(names,'Standard');
 matlabbatch{1}.spm.stats.con.consess{c}.tcon.sessrep = 'replsc';
 
 
