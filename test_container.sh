@@ -12,6 +12,7 @@ test.simg \
 --session 141620 \
 --scan Oddball \
 --mt1_niigz /INPUTS/mt1.nii.gz \
+--wmt1_niigz /INPUTS/mt1.nii.gz \
 --fmriFWD_niigz /INPUTS/801_oddball1APA_FMRI_MB3_2_5mm_1300.nii.gz \
 --fmriREV_niigz /INPUTS/401_rest2APP_FMRI_MB3_2_5mm_1300.nii.gz \
 --seg_niigz /INPUTS/T1_seg.nii.gz \
@@ -38,6 +39,7 @@ test.simg \
 --session 141620 \
 --scan WM1 \
 --mt1_niigz /INPUTS/mt1.nii.gz \
+--wmt1_niigz /INPUTS/mt1.nii.gz \
 --fmriFWD_niigz /INPUTS/501_wm1APA_FMRI_MB3_2_5mm_1300.nii.gz \
 --fmriREV_niigz /INPUTS/401_rest2APP_FMRI_MB3_2_5mm_1300.nii.gz \
 --seg_niigz /INPUTS/T1_seg.nii.gz \
@@ -64,6 +66,7 @@ test.simg \
 --session 141620 \
 --scan SPT \
 --mt1_niigz /INPUTS/mt1.nii.gz \
+--wmt1_niigz /INPUTS/mt1.nii.gz \
 --fmriFWD_niigz /INPUTS/1001_spt1APA_FMRI_MB3_2_5mm_1300.nii.gz \
 --fmriREV_niigz /INPUTS/401_rest2APP_FMRI_MB3_2_5mm_1300.nii.gz \
 --seg_niigz /INPUTS/T1_seg.nii.gz \
