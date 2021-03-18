@@ -31,6 +31,8 @@ do
 			export scan="$2"; shift; shift ;;
 		--mt1_niigz)
 			export mt1_niigz="$2"; shift; shift ;;
+		--wmt1_niigz)
+			export wmt1_niigz="$2"; shift; shift ;;
 		--fmriFWD_niigz)
 			export fmriFWD_niigz="$2"; shift; shift ;;
 		--fmriREV_niigz)
@@ -93,6 +95,7 @@ fsl_processing.sh
 # SPM processing: Warp to atlas space, smooth, first level stats, contrast images
 "${matlab_dir}"/run_spm12.sh "${mcr_dir}" function pipeline \
 	deffwd_niigz "${deffwd_niigz}" \
+	wmt1_niigz "${wmt1_niigz}" \
 	meanfmri_niigz "${out_dir}"/coregistered_mean_fmriFWD.nii.gz \
 	fmri_niigz "${out_dir}"/coregistered_fmriFWD.nii.gz \
 	eprime_summary_csv "${eprime_summary_csv}" \

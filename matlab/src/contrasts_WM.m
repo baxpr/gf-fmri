@@ -1,4 +1,4 @@
-function spm_contrasts_WM(spm_dir,conds_mat)
+function contrasts_WM(spm_dir,conds_mat)
 
 load(conds_mat,'names');
 clear matlabbatch

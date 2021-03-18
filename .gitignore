@@ -7,3 +7,4 @@ local*
 external/spm12_r7771
 matlab_home
 matlab/bin/spm12_mcr
+test_container.sh
