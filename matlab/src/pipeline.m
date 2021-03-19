@@ -1,24 +1,29 @@
 function pipeline(varargin)
 
 
-% TODO 
+% TODO
 % PDF to show filtered design matrix to verify ok hpf
-% PDF to show activation map similar to NDW_WM_v2
-% Verify csv read works for all tasks
 
 
 %% Parse inputs
 P = inputParser;
-P.addOptional('deffwd_niigz','');         % Forward warp from cat12
-P.addOptional('wmt1_niigz','');           % MNI space T1 from cat12
-P.addOptional('meanfmri_niigz','');       % Mean fMRI from FSL preproc
-P.addOptional('fmri_niigz','');           % Time series from FSL preproc
-P.addOptional('eprime_summary_csv','');   % Eprime summary from gf-edat
-P.addOptional('motion_par','');           % Motion params from FSL preproc
-P.addOptional('fwhm','');                 % Filter kernel in mm for smoothing
-P.addOptional('hpf','');                  % High pass filter length in sec
-P.addOptional('task','');                 % Task (Oddball, SPT, WM)
-P.addOptional('out_dir','');              % Where outputs will be stored
+P.addOptional('deffwd_niigz','');            % Forward warp from cat12
+P.addOptional('wmt1_niigz','');              % MNI space T1 from cat12
+P.addOptional('meanfmri_niigz','');          % Mean fMRI from FSL preproc
+P.addOptional('fmri_niigz','');              % Time series from FSL preproc
+P.addOptional('eprime_summary_csv','');      % Eprime summary from gf-edat
+P.addOptional('motion_par','');              % Motion params from FSL preproc
+P.addOptional('fwhm','');                    % Filter kernel in mm for smoothing
+P.addOptional('hpf','');                     % High pass filter length in sec
+P.addOptional('task','');                    % Task (Oddball, SPT, WM)
+P.addOptional('project','UNK_PROJ');         % XNAT params
+P.addOptional('subject','UNK_SUBJ');         %  
+P.addOptional('session','UNK_SESS');         %  
+P.addOptional('scan','UNK_SCAN');            %  
+P.addOptional('fsl_dir','/usr/local/fsl');   % Where outputs will be stored
+P.addOptional('magick_dir','/usr/bin');      % Where outputs will be stored
+P.addOptional('src_dir','/opt/gf-fmri/src'); % Where outputs will be stored
+P.addOptional('out_dir','');                 % Where outputs will be stored
 
 % Parse and show
 P.parse(varargin{:});
@@ -101,7 +106,7 @@ save(motion_txt,'mot','-ascii');
 
 %% First level stats
 disp('First level stats')
-first_level_stats( ...
+[contrast,conname] = first_level_stats( ...
 	inp.hpf, ...
 	[out_dir '/spm'], ...
 	inp.task, ...
@@ -121,6 +126,23 @@ first_level_stats( ...
 	[out_dir '/wmt1.nii'], ...
 	out_dir ...
 	);
+
+
+%% PDF
+system([ ...
+	' FSLDIR=' inp.fsl_dir
+	' MAGICKDIR=' inp.magick_dir
+	' OUTDIR=' out_dir
+	' CONTRAST=' contrast
+	' CONNAME=' conname
+	' PROJECT=' inp.project
+	' SUBJECT=' inp.subject
+	' SESSION=' inp.session
+	' SCAN=' inp.scan
+	' TASK=' inp.task
+	' ' inp.src_dir '/make_pdf.sh'
+	]);
+
 
 
 %% Exit

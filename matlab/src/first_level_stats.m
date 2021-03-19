@@ -1,4 +1,5 @@
-function first_level_stats(hpf,spm_dir,task,conds_mat,motion_txt,fmri_nii,wmt1_nii,out_dir)
+function [contrast,conname] = first_level_stats(hpf,spm_dir,task, ...
+	conds_mat,motion_txt,fmri_nii,wmt1_nii,out_dir)
 
 %% Init for printing windows
 spm('Defaults','fMRI');
@@ -50,26 +51,27 @@ spm_jobman('run',matlabbatch);
 switch task
 	case 'Oddball'
 		contrasts_Oddball(spm_dir,conds_mat)
-		view_contrast = 1;
-		view_loc = [];
+		contrast = 1;
 	case 'SPT'
 		contrasts_SPT(spm_dir,conds_mat)
-		view_contrast = 3;
-		view_loc = [];
+		contrast = 3;
 	case 'WM'
 		contrasts_WM(spm_dir,conds_mat)
-		view_contrast = 3;
-		view_loc = [];
+		contrast = 3;
 	otherwise
 		error('Task %s is unknown',task)
 end
+q = load([spm_dir '/SPM.mat']);
+conname = q.SPM.xCon(contrast).name;
 
 
 %% Results display
+% Not used - use fsleyes instead
+return
 xSPM = struct( ...
     'swd', spm_dir, ...
     'title', '', ...
-    'Ic', view_contrast, ...
+    'Ic', contrast, ...
     'n', 0, ...
     'Im', [], ...
     'pm', [], ...
