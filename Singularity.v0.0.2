@@ -86,5 +86,5 @@ From: ubuntu:20.04
 %runscript
   xvfb-run --server-num=$(($$ + 99)) \
   --server-args='-screen 0 1600x1200x24 -ac +extension GLX' \
-  bash gf-edat.sh "$@"
+  bash gf-fmri.sh "$@"
 
