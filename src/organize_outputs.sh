@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 #
-# Organize outputs of gf-fmri pipeline. Needs env variable out_dir set
+# Organize outputs of gf-fmri pipeline. Needs env variable OUTDIR set
 
 
 # Determine whether topup was performed
-if [ -f "${out_dir}"/topup.nii.gz ]; then
+if [ -f "${OUTDIR}"/topup.nii.gz ]; then
 	topup=true
 else
 	topup=false
@@ -12,7 +12,11 @@ fi
 if $topup; then echo Topup output found; fi
 
 # Get to output directory
-cd "${out_dir}"
+cd "${OUTDIR}"
+
+# PDF
+mkdir PDF
+mv gf-edat.pdf PDF
 
 ## MEANFMRI  - mean fmri images after motion correction (and optionally topup) but before registration
 # mean_fmriFWD.nii.gz                         FWD mean fmri in native space
