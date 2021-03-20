@@ -30,10 +30,10 @@ matlabbatch{1}.spm.stats.fmri_spec.mask = {[spm('dir') '/tpm/mask_ICV.nii,1']};
 matlabbatch{1}.spm.stats.fmri_spec.cvi = 'AR(1)';
 
 % Capture the graphical output
-matlabbatch{2}.cfg_basicio.run_ops.call_matlab.inputs{1}.string = ...
-	fullfile(out_dir,'first_level_design.png');
-matlabbatch{2}.cfg_basicio.run_ops.call_matlab.outputs = {};
-matlabbatch{2}.cfg_basicio.run_ops.call_matlab.fun = 'spm_window_print';
+%matlabbatch{2}.cfg_basicio.run_ops.call_matlab.inputs{1}.string = ...
+%	fullfile(out_dir,'first_level_design.png');
+%matlabbatch{2}.cfg_basicio.run_ops.call_matlab.outputs = {};
+%matlabbatch{2}.cfg_basicio.run_ops.call_matlab.fun = 'spm_window_print';
 
 % Run
 spm_jobman('run',matlabbatch);
@@ -66,8 +66,7 @@ conname = q.SPM.xCon(contrast).name;
 
 
 %% Results display
-% Not used - use fsleyes instead
-return
+% Needed to create the spmT even if we don't get the figure window
 xSPM = struct( ...
     'swd', spm_dir, ...
     'title', '', ...
@@ -92,11 +91,25 @@ spm_mip_ui('Jump',spm_mip_ui('FindMIPax'),'glmax');
 %spm_mip_ui('Jump',spm_mip_ui('FindMIPax'),view_loc);
 
 % Capture the graphical output
+%clear matlabbatch
+%matlabbatch{1}.cfg_basicio.run_ops.call_matlab.inputs{1}.string = ...
+%	fullfile(out_dir,'first_level_results.png');
+%matlabbatch{1}.cfg_basicio.run_ops.call_matlab.outputs = {};
+%matlabbatch{1}.cfg_basicio.run_ops.call_matlab.fun = 'spm_window_print';
+%spm_jobman('run',matlabbatch);
+
+
+%% Review design
 clear matlabbatch
-matlabbatch{1}.cfg_basicio.run_ops.call_matlab.inputs{1}.string = ...
-	fullfile(out_dir,'first_level_results.png');
-matlabbatch{1}.cfg_basicio.run_ops.call_matlab.outputs = {};
-matlabbatch{1}.cfg_basicio.run_ops.call_matlab.fun = 'spm_window_print';
+matlabbatch{1}.spm.stats.review.spmmat = {[spm_dir '/SPM.mat']};
+matlabbatch{1}.spm.stats.review.display.matrix = 1;
+matlabbatch{1}.spm.stats.review.print = false;
+
+matlabbatch{2}.cfg_basicio.run_ops.call_matlab.inputs{1}.string = ...
+	fullfile(out_dir,'first_level_design.png');
+matlabbatch{2}.cfg_basicio.run_ops.call_matlab.outputs = {};
+matlabbatch{2}.cfg_basicio.run_ops.call_matlab.fun = 'spm_window_print';
+
 spm_jobman('run',matlabbatch);
 
 

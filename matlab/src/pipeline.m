@@ -9,6 +9,7 @@ function pipeline(varargin)
 P = inputParser;
 P.addOptional('deffwd_niigz','');            % Forward warp from cat12
 P.addOptional('wmt1_niigz','');              % MNI space T1 from cat12
+P.addOptional('refimg_nii','');              % MNI space T1 from cat12
 P.addOptional('meanfmri_niigz','');          % Mean fMRI from FSL preproc
 P.addOptional('fmri_niigz','');              % Time series from FSL preproc
 P.addOptional('eprime_summary_csv','');      % Eprime summary from gf-edat
@@ -17,12 +18,12 @@ P.addOptional('fwhm','');                    % Filter kernel in mm for smoothing
 P.addOptional('hpf','');                     % High pass filter length in sec
 P.addOptional('task','');                    % Task (Oddball, SPT, WM)
 P.addOptional('project','UNK_PROJ');         % XNAT params
-P.addOptional('subject','UNK_SUBJ');         %  
-P.addOptional('session','UNK_SESS');         %  
-P.addOptional('scan','UNK_SCAN');            %  
-P.addOptional('fsl_dir','/usr/local/fsl');   % Where outputs will be stored
-P.addOptional('magick_dir','/usr/bin');      % Where outputs will be stored
-P.addOptional('src_dir','/opt/gf-fmri/src'); % Where outputs will be stored
+P.addOptional('subject','UNK_SUBJ');
+P.addOptional('session','UNK_SESS');
+P.addOptional('scan','UNK_SCAN');
+P.addOptional('fsl_dir','');
+P.addOptional('magick_dir','');
+P.addOptional('src_dir','');
 P.addOptional('out_dir','');                 % Where outputs will be stored
 
 % Parse and show
@@ -50,18 +51,18 @@ end
 
 %% Warp
 disp('Warp')
-clear matlabbatch
-matlabbatch{1}.spm.util.defs.comp{1}.def = {[out_dir '/y_deffwd.nii']};
-matlabbatch{1}.spm.util.defs.out{1}.pull.fnames = {
+clear job
+job.comp{1}.def = {[out_dir '/y_deffwd.nii']};
+job.comp{2}.id.space = {refimg_nii};
+job.out{1}.pull.fnames = {
 	[out_dir '/meanfmri.nii']
 	[out_dir '/fmri.nii']
 	};
-matlabbatch{1}.spm.util.defs.out{1}.pull.savedir.savesrc = 1;
-matlabbatch{1}.spm.util.defs.out{1}.pull.interp = 1;
-matlabbatch{1}.spm.util.defs.out{1}.pull.mask = 1;
-matlabbatch{1}.spm.util.defs.out{1}.pull.fwhm = [0 0 0];
-matlabbatch{1}.spm.util.defs.out{1}.pull.prefix = 'w';
-spm_jobman('run',matlabbatch);
+job.out{1}.pull.savedir.saveusr = {out_dir};
+job.out{1}.pull.interp = 1;
+job.out{1}.pull.mask = 0;
+job.out{1}.pull.fwhm = [0 0 0];
+spm_deformations(job);
 
 
 %% Smooth

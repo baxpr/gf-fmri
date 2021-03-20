@@ -9,10 +9,13 @@ export project=NO_PROJ
 export subject=NO_SUBJ
 export session=NO_SESS
 export scan=NO_SCAN
-export vox_mm=1.5
+export vox_mm=2
 export run_topup=yes
+export refimg_nii=avg152T1.nii
 export src_dir=/opt/gf-fmri/src
 export matlab_dir=/opt/gf-fmri/matlab/bin
+export fsl_dir=/usr/local/fsl
+export magick_dir=/usr/bin
 export mcr_dir=/usr/local/MATLAB/MATLAB_Runtime/v97
 export out_dir=/OUTPUTS
 
@@ -93,22 +96,19 @@ fsl_processing.sh
 
 
 # SPM processing: Warp to atlas space, smooth, first level stats, contrast images
+# Also makes PDF and organizes outputs
 "${matlab_dir}"/run_spm12.sh "${mcr_dir}" function pipeline \
 	deffwd_niigz "${deffwd_niigz}" \
 	wmt1_niigz "${wmt1_niigz}" \
+	refimg_nii "${refimg_nii}" \
 	meanfmri_niigz "${out_dir}"/coregistered_mean_fmriFWD.nii.gz \
 	fmri_niigz "${out_dir}"/coregistered_fmriFWD.nii.gz \
 	eprime_summary_csv "${eprime_summary_csv}" \
 	motion_par "${out_dir}"/rfwd.par \
 	out_dir "${out_dir}" \
+	src_dir "${src_dir}" \
+	fsl_dir "${fsl_dir}" \
+	magick_dir "${magick_dir}" \
 	fwhm "${fwhm}" \
 	hpf "${hpf}" \
 	task "${task}"
-	
-
-# PDF
-#make_pdf.sh
-
-
-# Organize outputs for XNAT
-#organize_outputs.sh
