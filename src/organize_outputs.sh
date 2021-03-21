@@ -92,10 +92,5 @@ mkdir SFMRI_MNI
 mv swfmri.nii.gz SFMRI_MNI
 
 ## SPM_UNSMOOTHED
-# spm_unsmoothed     SPM results unsmoothed
-mv spm_unsmoothed SPM_UNSMOOTHED
 
 ## SPM
-# spm                SPM results smoothed
-mv spm SPM
-

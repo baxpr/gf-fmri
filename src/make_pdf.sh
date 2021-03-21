@@ -16,7 +16,7 @@ for slice in -35 -20 -5 10 25 40 55 70  ; do
 		--scene ortho --worldLoc 0 0 ${slice} --displaySpace world --size 600 600 --yzoom 1000 \
 		--layout horizontal --hideCursor --hideLabels --hidex --hidey \
 		wmt1 --overlayType volume \
-		spm/spmT_000${CONTRAST} --overlayType volume --displayRange 3 10 \
+		SPM/spmT_000${CONTRAST} --overlayType volume --displayRange 3 10 \
 		--useNegativeCmap --cmap red-yellow --negativeCmap blue-lightblue
 done
 
