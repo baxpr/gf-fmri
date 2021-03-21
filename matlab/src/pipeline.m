@@ -49,7 +49,7 @@ end
 disp('Warp')
 clear job
 job.comp{1}.def = {[out_dir '/y_deffwd.nii']};
-job.comp{2}.id.space = {which(refimg_nii)};
+job.comp{2}.id.space = {which(inp.refimg_nii)};
 job.out{1}.pull.fnames = {
 	[out_dir '/meanfmri.nii']
 	[out_dir '/fmri.nii']
