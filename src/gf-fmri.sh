@@ -14,7 +14,6 @@ export run_topup=yes
 export refimg_nii=avg152T1.nii
 export src_dir=/opt/gf-fmri/src
 export matlab_dir=/opt/gf-fmri/matlab/bin
-export fsl_dir=/usr/local/fsl
 export magick_dir=/usr/bin
 export mcr_dir=/usr/local/MATLAB/MATLAB_Runtime/v97
 export out_dir=/OUTPUTS
@@ -106,9 +105,10 @@ fsl_processing.sh
 	eprime_summary_csv "${eprime_summary_csv}" \
 	motion_par "${out_dir}"/rfwd.par \
 	out_dir "${out_dir}" \
-	src_dir "${src_dir}" \
-	fsl_dir "${fsl_dir}" \
-	magick_dir "${magick_dir}" \
 	fwhm "${fwhm}" \
 	hpf "${hpf}" \
 	task "${task}"
+
+
+# PDF
+make_pdf.sh

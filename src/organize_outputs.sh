@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 #
-# Organize outputs of gf-fmri pipeline. Needs env variable OUTDIR set
+# Organize outputs of gf-fmri pipeline. Needs env variable out_dir set
 
 
 # Determine whether topup was performed
-if [ -f "${OUTDIR}"/topup.nii.gz ]; then
+if [ -f "${out_dir}"/topup.nii.gz ]; then
 	topup=true
 else
 	topup=false
@@ -12,7 +12,7 @@ fi
 if $topup; then echo Topup output found; fi
 
 # Get to output directory
-cd "${OUTDIR}"
+cd "${out_dir}"
 
 # PDF
 mkdir PDF

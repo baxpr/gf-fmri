@@ -5,7 +5,11 @@ PATH=${FSLDIR}/bin:${PATH}
 . ${FSLDIR}/etc/fslconf/fsl.sh
 
 # Work in output directory
-cd ${OUTDIR}
+cd ${out_dir}
+
+
+# Get some info from the matlab part
+source matlab_envvars.sh
 
 thedate=$(date)
 
@@ -23,13 +27,13 @@ done
 
 
 # Combine
-${MAGICKDIR}/montage \
+${magick_dir}/montage \
 	-mode concatenate ax_*.png \
 	-tile 3x -trim -quality 100 -background black -gravity center \
 	-border 20 -bordercolor black page_ax.png
 
-info_string="$PROJECT $SUBJECT $SESSION $SCAN"
-${MAGICKDIR}/convert -size 2600x3365 xc:white \
+info_string="$project $subject $session $scan"
+${magick_dir}/convert -size 2600x3365 xc:white \
 	-gravity center \( page_ax.png -resize 2400x \) -composite \
 	-gravity North -pointsize 48 -annotate +0+100 \
 	"$TASK fMRI results, $CONNAME" \
@@ -37,11 +41,11 @@ ${MAGICKDIR}/convert -size 2600x3365 xc:white \
 	-gravity NorthWest -pointsize 48 -annotate +100+200 "${info_string}" \
 	page_ax.png
 
-${MAGICKDIR}/convert -size 2600x3365 xc:white \
+${magick_dir}/convert -size 2600x3365 xc:white \
 	-gravity center \( first_level_design_001.png -resize 2400x \) -composite \
 	-gravity SouthEast -pointsize 48 -annotate +100+100 "${thedate}" \
 	first_level_design_001.png
 
-${MAGICKDIR}/convert page_ax.png first_level_design_001.png gf-fmri.pdf
+${magick_dir}/convert page_ax.png first_level_design_001.png gf-fmri.pdf
 
 rm *.png
