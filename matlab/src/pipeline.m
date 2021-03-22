@@ -124,7 +124,9 @@ val = [ ...
 	'export CONTRAST=' num2str(contrast) '\n' ...
 	'export CONNAME="' conname '"\n' ...
 	];
-fprintf(fullfile(out_dir,'matlab_envvars.sh'),val);
+fid = fopen(fullfile(out_dir,'matlab_envvars.sh'),'wt');
+fprintf(fid,val);
+fclose(fid);
 
 
 %% Exit
