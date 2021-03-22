@@ -96,5 +96,7 @@ mkdir SFMRI_MNI
 mv swfmri.nii.gz SFMRI_MNI
 
 ## SPM_UNSMOOTHED
+gzip SPM_UNSMOOTHED/*.nii
 
 ## SPM
+gzip SPM/*.nii
