@@ -7,11 +7,17 @@ spm_jobman('initcfg');
 spm_figure('Create','Graphics','SPM12');
 
 
+%% Get TR
+N = nifti(fmri_nii);
+tr = N.timing.tspace;
+fprintf('ALERT: USING TR OF %0.3f sec FROM FMRI NIFTI\n',tr)
+
+
 %% First level stats
 clear matlabbatch
 matlabbatch{1}.spm.stats.fmri_spec.dir = {spm_dir};
 matlabbatch{1}.spm.stats.fmri_spec.timing.units = 'secs';
-matlabbatch{1}.spm.stats.fmri_spec.timing.RT = 1.3;
+matlabbatch{1}.spm.stats.fmri_spec.timing.RT = tr;
 matlabbatch{1}.spm.stats.fmri_spec.timing.fmri_t = 16;
 matlabbatch{1}.spm.stats.fmri_spec.timing.fmri_t0 = 8;
 matlabbatch{1}.spm.stats.fmri_spec.sess.scans = {fmri_nii};
