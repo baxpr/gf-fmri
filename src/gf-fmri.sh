@@ -110,5 +110,6 @@ fsl_processing.sh
 	task "${task}"
 
 
-# PDF
+# PDF and outputs org
 make_pdf.sh
+organize_outputs.sh
