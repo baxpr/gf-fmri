@@ -2,6 +2,7 @@
 #
 # Organize outputs of gf-fmri pipeline. Needs env variable out_dir set
 
+echo Organize outputs
 
 # Determine whether topup was performed
 if [ -f "${out_dir}"/topup.nii.gz ]; then
@@ -16,7 +17,7 @@ cd "${out_dir}"
 
 # PDF
 mkdir PDF
-mv gf-edat.pdf PDF
+mv gf-fmri.pdf PDF
 
 ## MEANFMRI  - mean fmri images after motion correction (and optionally topup) but before registration
 # mean_fmriFWD.nii.gz                         FWD mean fmri in native space
@@ -29,7 +30,7 @@ mv mean_fmriFWD.nii.gz mean_fmriREV.nii.gz MEANFMRI
 # coregistered_mean_fmriREV.nii.gz            REV mean fmri in native space (topup only)
 # mean_fmri_to_t1.mat
 mkdir MEANFMRI_REG
-mv coregistered_mean_fmriFWD.nii.gz coregistered_mean_fmriREV.nii.gz mean_fmri_to_t1.mat MEANFMRI_REG
+mv coregistered_mean_fmriFWD.nii.gz coregistered_mean_fmriREV.nii.gz corrected_fmri_to_t1.mat MEANFMRI_REG
 
 ## FMRI_REG - fmri time series after motion correction, optionally topup, and registration to t1
 # coregistered_fmriFWD.nii.gz                 fmri time series
@@ -78,16 +79,19 @@ fi
 
 ## MEANFMRI_MNI - mean fmri image after motion correction, topup(if), registration to t1, and warp to MNI space
 # wmeanfmri.nii.gz   Mean FWD fmri in MNI space
+gzip wmeanfmri.nii
 mkdir MEANFMRI_MNI
 mv wmeanfmri.nii.gz MEANFMRI_MNI
 
 ## FMRI_MNI - fmri time series after motion correction, topup(if), registration to t1, and warp to MNI space
 # wfmri.nii.gz       FWD fmri in MNI space
+gzip wfmri.nii
 mkdir FMRI_MNI
 mv wfmri.nii.gz FMRI_MNI
 
 # SFMRI_MNI - smoothed fmri time series after motion correction, topup(if), registration to t1, and warp to MNI space
 # swfmri.nii.gz      Smoothed FWD fmri in MNI space  (?)
+gzip swfmri.nii
 mkdir SFMRI_MNI
 mv swfmri.nii.gz SFMRI_MNI
 

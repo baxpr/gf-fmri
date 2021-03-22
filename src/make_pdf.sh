@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+echo Making PDF
+
 # FSL init
 PATH=${FSLDIR}/bin:${PATH}
 . ${FSLDIR}/etc/fslconf/fsl.sh
