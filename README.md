@@ -6,7 +6,7 @@ Required inputs are the fMRI time series to be analyzed (fmriFWD), and a short a
 
 The pipeline is installed in the container at `/opt/gf-fmri`.
 
-To build, note that the matlab binary must be created first. See `matlab/build/BUILD.md`. The actual matlab code in the container is for reference only, and is not used at runtime.
+To build, note that the matlab binary must be created first. See `matlab/build/BUILD.md`. The actual matlab code here and in the container is for reference only, and is not used at runtime.
 
 For an example run command, see `test_container.sh`.
 
