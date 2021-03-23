@@ -50,3 +50,19 @@ Required inputs are the fMRI time series to be analyzed (fmriFWD), and a short a
     --src_dir                 Location of pipeline shell scripts
     --matlab_dir              Location of pipeline matlab code
     --mcr_dir                 Location of Matlab Compiled Runtime
+
+
+## Outputs
+
+    PDF                       Processing report
+	MEANFMRI                  Native space mean fMRI after motion correction (and optionally topup) but before registration
+	MEANFMRI_REG              Native space mean fMRI after motion correction/topup and registration to t1
+	FMRI_REG                  Native space fMRI time series after motion correction/topup and registration to t1
+	MEANFMRI_MNI              Atlas space mean fMRI after motion correction/topup and registration to t1
+	FMRI_MNI                  Atlas space fMRI time series after motion correction/topup and registration to t1
+	SFMRI_MNI                 Smoothed atlas space fMRI
+	MEANFMRI_REG_NO_TOPUP     Native space mean fMRIs without topup, for evaluation of topup
+	SPM                       SPM first level stats results directory
+	SPM_UNSMOOTHED            SPM results with no smoothing used
+	TOPUP                     Topup-related files
+	WMSEG                     White matter mask used with epi_reg
