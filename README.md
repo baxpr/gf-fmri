@@ -40,7 +40,7 @@ For an example run command, see `test_container.sh`.
     --run_topup               'yes' or 'no'. See --fmriREV_niigz
     --fwhm                    Atlas space smoothing kernel in mm before first level stats
     --hpf                     Temporal high pass filter for fMRI time series in sec
-    --task                    Task. 'Oddball', 'OddballOld', 'SPT', or 'WM'
+    --task                    Task. 'Oddball', 'SPT', or 'WM'
 	--refimg_nii              Sets output geometry. 'avg152T1.nii' (2mm) or 'TPM.nii' (1.5mm)
     --out_dir                 Output directory for results
 
