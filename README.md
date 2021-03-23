@@ -14,7 +14,7 @@ Required inputs are the fMRI time series to be analyzed (fmriFWD), and a short a
     --icv_niigz               ICV_NATIVE    Native space processed T1 masked to intracranial volume
     --deffwd_niigz            DEF_FWD       Forward deformation from native to atlas space
 
-*Resources from Multi-Atlas/SLANT*
+*Resources from Multi-Atlas/SLANT pipeline e.g. slant_gpu_v1*
     
     --seg_niigz               SEG           Segmented native space T1
 
