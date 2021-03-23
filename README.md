@@ -32,7 +32,7 @@ Required inputs are the fMRI time series to be analyzed (fmriFWD), and a short a
     
     --vox_mm                  Voxel size for intermediate resampling of fMRI in native space
     --run_topup               'yes' or 'no'. See --fmriREV_niigz
-    --fwhm                    Smoothing kernel for atlas space images before first level stats
+    --fwhm                    Atlas space smoothing kernel in mm before first level stats
     --hpf                     Temporal high pass filter for fMRI time series in sec
     --task                    Task. 'Oddball', 'OddballOld', 'SPT', or 'WM'
 	--refimg_nii              Sets output geometry. 'avg152T1.nii' (2mm) or 'TPM.nii' (1.5mm)
