@@ -4,7 +4,12 @@
 
 Required inputs are the fMRI time series to be analyzed (fmriFWD), and a short additional fMRI time series acquired with same parameters but opposite phase encoding direction (fmriREV). Motion correction is applied to each separately with MCFLIRT. TOPUP is used with the two mean images output by motion correction, and the TOPUP warp is then applied to the mean images and the fmriFWD motion-corrected time series. The resulting fMRI are warped to MNI space using the supplied deformation, and first level statistical analysis is performed using SPM for the chosen task.
 
+The pipeline is installed in the container at `/opt/gf-fmri`.
+
+To build, note that the matlab binary must be created first. See `matlab/build/BUILD.md`. The actual matlab code in the container is for reference only, and is not used at runtime.
+
 For an example run command, see `test_container.sh`.
+
 
 ## Inputs
 
