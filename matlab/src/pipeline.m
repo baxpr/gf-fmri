@@ -38,6 +38,11 @@ for niigz = {'y_deffwd.nii.gz','wmt1.nii.gz','meanfmri.nii.gz','fmri.nii.gz'}
 end
 
 
+%% Initialize SPM
+% Needed to avoid oid error on singularity-hub?
+spm_jobman('initcfg');
+
+
 %% Warp
 disp('Warp')
 clear job
