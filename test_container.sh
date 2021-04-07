@@ -5,7 +5,7 @@ singularity run --contain --cleanenv \
 --home $(pwd)/INPUTS_141394 \
 --bind INPUTS_141394:/INPUTS \
 --bind OUTPUTS_141394_SPT:/OUTPUTS \
-test.simg \
+gf-fmri_v1.1.0.simg \
 --project GenFac_HWZ \
 --subject 141394 \
 --session 141394 \
