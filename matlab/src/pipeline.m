@@ -75,21 +75,16 @@ spm_jobman('run',matlabbatch);
 % Matlab is still not clever enough to suss this out on its own. Also there
 % are some task-specific things here, e.g. skipping the "Tone" (Foil) event
 % for the Oddball task.
-names = {}; onsets = {}; durations = {};
-ep = readtable([out_dir '/eprime_summary.csv'],'Delimiter','comma');
-ep = readtable([out_dir '/eprime_summary.csv'], ...
-	'Format',repmat('%q',1,size(ep,2)));
-for c = 1:height(ep)
-	if strcmp(inp.task,'Oddball') && strcmp(ep.Condition{c},'Tone')
-		% Skip this condition
-	else
-		names{end+1,1} = ep.Condition{c};
-		onsets{end+1,1} = eval(ep.OnsetsSec{c});
-		durations{end+1,1} = eval(ep.DurationsSec{c});
-	end
+switch inp.task
+	case 'Oddball'
+		conds_mat = conditions_Oddball(out_dir);
+	case 'SPT'
+		conds_mat = conditions_SPT(out_dir);
+	case 'WM'
+		conds_mat = conditions_WM(out_dir);
+	otherwise
+		error('No such task %s',inp.task)
 end
-conds_mat = [out_dir '/conds.mat'];
-save(conds_mat,'names','onsets','durations');
 
 
 %% Rename and rescale motion params so SPM can work with it
