@@ -100,3 +100,7 @@ gzip SPM_UNSMOOTHED/*.nii
 
 ## SPM
 gzip SPM/*.nii
+
+## Motion params
+mkdir MOTPARAMS_FSL
+mv rfwd.par MOTPARAMS_FSL
