@@ -13,8 +13,30 @@ cd ${out_dir}
 # Get some info from the matlab part
 source matlab_envvars.sh
 
+# Timestamp
 thedate=$(date)
 
+# EPI-to-T1 coregistration, native space, near WM COM
+com=( $(fslstats wm -c) )
+com[0]=$(echo ${com[0]} + 10 | bc)
+fsleyes render -of coreg.png \
+	--scene ortho --worldLoc ${com[@]} --displaySpace world --size 1800 600 --xzoom 1000 --yzoom 1000 --zzoom 1000 \
+	--layout horizontal --hideCursor \
+	coregistered_mean_fmriFWD --overlayType volume \
+	gm --overlayType label --outline --outlineWidth 2 --lut harvard-oxford-subcortical
+#	wm --overlayType label --outline --outlineWidth 2 --lut harvard-oxford-subcortical \
+
+
+# EPI normalization, MNI space
+fslmaths ${FSLDIR}/data/standard/tissuepriors/avg152T1_gray -thr 100 gm_mni
+fsleyes render -of mni.png \
+	--scene ortho --worldLoc ${com[@]} --displaySpace world --size 1800 600 --xzoom 1000 --yzoom 1000 --zzoom 1000 \
+	--layout horizontal --hideCursor \
+	wmeanfmri --overlayType volume \
+	gm_mni --overlayType label --outline --outlineWidth 2 --lut harvard-oxford-subcortical
+
+
+# fMRI contrast image, slices
 c=10
 for slice in -35 -20 -5 10 25 40 55 70  ; do
 	((c++))
@@ -36,6 +58,20 @@ ${magick_dir}/montage \
 
 info_string="$project $subject $session $scan"
 ${magick_dir}/convert -size 2600x3365 xc:white \
+	-gravity center \( coreg.png -resize 2400x \) -composite \
+	-gravity North -pointsize 48 -annotate +0+100 \
+	"T1 gray matter outline on mean fMRI (native space)" \
+	-gravity SouthEast -pointsize 48 -annotate +100+100 "${thedate}" \
+	coreg.png
+
+${magick_dir}/convert -size 2600x3365 xc:white \
+	-gravity center \( mni.png -resize 2400x \) -composite \
+	-gravity North -pointsize 48 -annotate +0+100 \
+	"Atlas gray matter outline on mean fMRI (atlas space)" \
+	-gravity SouthEast -pointsize 48 -annotate +100+100 "${thedate}" \
+	mni.png
+
+${magick_dir}/convert -size 2600x3365 xc:white \
 	-gravity center \( page_ax.png -resize 2400x \) -composite \
 	-gravity North -pointsize 48 -annotate +0+100 \
 	"$TASK fMRI results, $CONNAME" \
@@ -48,6 +84,6 @@ ${magick_dir}/convert -size 2600x3365 xc:white \
 	-gravity SouthEast -pointsize 48 -annotate +100+100 "${thedate}" \
 	first_level_design_001.png
 
-${magick_dir}/convert page_ax.png first_level_design_001.png gf-fmri.pdf
+${magick_dir}/convert coreg.png mni.png page_ax.png first_level_design_001.png gf-fmri.pdf
 
 rm *.png
