@@ -9,7 +9,6 @@ PATH=${FSLDIR}/bin:${PATH}
 # Work in output directory
 cd ${out_dir}
 
-
 # Get some info from the matlab part
 source matlab_envvars.sh
 
@@ -28,9 +27,9 @@ fsleyes render -of coreg.png \
 
 
 # EPI normalization, MNI space
-fslmaths ${FSLDIR}/data/standard/tissuepriors/avg152T1_gray -thr 100 gm_mni
+fslmaths ${FSLDIR}/data/standard/tissuepriors/avg152T1_gray -thr 100 -bin gm_mni
 fsleyes render -of mni.png \
-	--scene ortho --worldLoc ${com[@]} --displaySpace world --size 1800 600 --xzoom 1000 --yzoom 1000 --zzoom 1000 \
+	--scene ortho --worldLoc 10 -30 0 --displaySpace world --size 1800 600 --xzoom 600 --yzoom 600 --zzoom 600 \
 	--layout horizontal --hideCursor \
 	wmeanfmri --overlayType volume \
 	gm_mni --overlayType label --outline --outlineWidth 2 --lut harvard-oxford-subcortical
@@ -56,20 +55,21 @@ ${magick_dir}/montage \
 	-tile 3x -trim -quality 100 -background black -gravity center \
 	-border 20 -bordercolor black page_ax.png
 
+${magick_dir}/montage \
+	-mode concatenate coreg.png mni.png \
+	-tile 1x -trim -quality 100 -background black -gravity center \
+	-border 20 -bordercolor black page_reg.png
+
 info_string="$project $subject $session $scan"
-${magick_dir}/convert -size 2600x3365 xc:white \
-	-gravity center \( coreg.png -resize 2400x \) -composite \
-	-gravity North -pointsize 48 -annotate +0+100 \
-	"T1 gray matter outline on mean fMRI (native space)" \
-	-gravity SouthEast -pointsize 48 -annotate +100+100 "${thedate}" \
-	coreg.png
 
 ${magick_dir}/convert -size 2600x3365 xc:white \
-	-gravity center \( mni.png -resize 2400x \) -composite \
+	-gravity center \( page_reg.png -resize 2400x \) -composite \
 	-gravity North -pointsize 48 -annotate +0+100 \
-	"Atlas gray matter outline on mean fMRI (atlas space)" \
+	"Top: T1 gray matter outline on registered mean fMRI (native space)" \
+	-gravity North -pointsize 48 -annotate +0+200 \
+	"Bottom: Atlas gray matter outline on warped mean fMRI (atlas space)" \
 	-gravity SouthEast -pointsize 48 -annotate +100+100 "${thedate}" \
-	mni.png
+	page_reg.png
 
 ${magick_dir}/convert -size 2600x3365 xc:white \
 	-gravity center \( page_ax.png -resize 2400x \) -composite \
@@ -84,6 +84,6 @@ ${magick_dir}/convert -size 2600x3365 xc:white \
 	-gravity SouthEast -pointsize 48 -annotate +100+100 "${thedate}" \
 	first_level_design_001.png
 
-${magick_dir}/convert coreg.png mni.png page_ax.png first_level_design_001.png gf-fmri.pdf
+${magick_dir}/convert page_reg.png page_ax.png first_level_design_001.png gf-fmri.pdf
 
 rm *.png
