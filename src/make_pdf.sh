@@ -48,6 +48,11 @@ for slice in -35 -20 -5 10 25 40 55 70  ; do
 done
 
 
+# README and methods info
+${src_dir}/make_params_report.sh > params.txt
+cat /opt/gf-fmri/README.md params.txt > readme.txt
+${magick_dir}/convert -size 2600x3365 xc:white -pointsize 36 -font Courier -fill black \
+	-annotate +100+100 "@readme.txt" readme.png
 
 # Combine
 ${magick_dir}/montage \
@@ -84,6 +89,6 @@ ${magick_dir}/convert -size 2600x3365 xc:white \
 	-gravity SouthEast -pointsize 48 -annotate +100+100 "${thedate}" \
 	first_level_design_001.png
 
-${magick_dir}/convert page_reg.png page_ax.png first_level_design_001.png gf-fmri.pdf
+${magick_dir}/convert page_reg.png page_ax.png first_level_design_001.png readme.png gf-fmri.pdf
 
 rm *.png

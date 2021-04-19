@@ -2,11 +2,18 @@
 
 ## Preprocessing
 
-Required inputs are the fMRI time series to be analyzed (fmriFWD), and a short additional fMRI time series acquired with same parameters but opposite phase encoding direction (fmriREV). Motion correction is applied to each separately with MCFLIRT. TOPUP is used with the two mean images output by motion correction, and the TOPUP warp is then applied to the mean images and the fmriFWD motion-corrected time series. The resulting fMRI are warped to MNI space using the supplied deformation, and first level statistical analysis is performed using SPM for the chosen task.
+Required inputs are the fMRI time series to be analyzed (fmriFWD), and a short additional fMRI 
+time series acquired with same parameters but opposite phase encoding direction (fmriREV). Motion 
+correction is applied to each separately with MCFLIRT. TOPUP is used with the two mean images 
+output by motion correction, and the TOPUP warp is then applied to the mean images and the 
+fmriFWD motion-corrected time series. The resulting fMRI are warped to MNI space using the 
+supplied deformation, and first level statistical analysis is performed using SPM for the chosen 
+task.
 
 The pipeline is installed in the container at `/opt/gf-fmri`.
 
-To build, note that the matlab binary must be created first. See `matlab/build/BUILD.md`. The actual matlab code here and in the container is for reference only, and is not used at runtime.
+To build, note that the matlab binary must be created first. See `matlab/build/BUILD.md`. The 
+actual matlab code here and in the container is for reference only, and is not used at runtime.
 
 For an example run command, see `test_container.sh`.
 
@@ -61,11 +68,11 @@ For an example run command, see `test_container.sh`.
 ## Outputs
 
     PDF                       Processing report
-    MEANFMRI                  Native space mean fMRI after motion correction (and optionally topup) but before registration
-    MEANFMRI_REG              Native space mean fMRI after motion correction/topup and registration to t1
-    FMRI_REG                  Native space fMRI time series after motion correction/topup and registration to t1
-    MEANFMRI_MNI              Atlas space mean fMRI after motion correction/topup and registration to t1
-    FMRI_MNI                  Atlas space fMRI time series after motion correction/topup and registration to t1
+    MEANFMRI                  Native space mean fMRI after motion correction/topup
+    MEANFMRI_REG              Native space mean fMRI after mot corr/topup and registration to t1
+    FMRI_REG                  Native space fMRI time series after mot corr/topup and registration
+    MEANFMRI_MNI              Atlas space mean fMRI after mot corr/topup and registration
+    FMRI_MNI                  Atlas space fMRI time series after mot corr/topup and registration
     SFMRI_MNI                 Smoothed atlas space fMRI
     MEANFMRI_REG_NO_TOPUP     Native space mean fMRIs without topup, for evaluation of topup
     TOPUP                     Topup-related files
