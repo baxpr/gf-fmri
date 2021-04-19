@@ -20,7 +20,21 @@ For an example run command, see `test_container.sh`.
 1. FSL motion correction is applied separately to the fmriFWD and fmriREV time series, and mean
    images are created.
 
-2. 
+2. FSL TOPUP is run using the mean fMRIs, if it was requested.
+
+3. The TOPUP-corrected mean fmriFWD is registered to the T1 using FSL's `epi_reg`. If TOPUP was
+   skipped, the mean fmriFWD from step 1 is registered instead.
+
+4. Resampled versions of all the fMRIs, with voxel size as requested in `vox_mm`, are produced.
+
+5. The fmriFWD mean and timeseries are warped to atlas space using the supplied deformation field
+   `deffwd`, using SPM12's Deformations toolbox.
+
+6. The fMRI time series images are smoothed with a `fwhm` mm Gaussian kernel.
+
+7. First level statistical modeling is performed on the unsmoothed and smoothed fmriFWD time
+   series, using SPM12 and the task-specific models and contrasts implied by the `task` option.
+
 
 ## Inputs
 
