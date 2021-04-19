@@ -1,7 +1,5 @@
 # FMRI task analysis for GF Oddball, SPT, WM
 
-## Preprocessing
-
 Required inputs are the fMRI time series to be analyzed (fmriFWD), and a short additional fMRI 
 time series acquired with same parameters but opposite phase encoding direction (fmriREV). Motion 
 correction is applied to each separately with MCFLIRT. TOPUP is used with the two mean images 
@@ -17,6 +15,12 @@ actual matlab code here and in the container is for reference only, and is not u
 
 For an example run command, see `test_container.sh`.
 
+## Processing steps
+
+1. FSL motion correction is applied separately to the fmriFWD and fmriREV time series, and mean
+   images are created.
+
+2. 
 
 ## Inputs
 
