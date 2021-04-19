@@ -28,7 +28,8 @@ For an example run command, see `test_container.sh`.
 4. Resampled versions of all the fMRIs, with voxel size as requested in `vox_mm`, are produced.
 
 5. The fmriFWD mean and timeseries are warped to atlas space using the supplied deformation field
-   `deffwd`, using SPM12's Deformations toolbox.
+   `deffwd`, using SPM12's Deformations toolbox. They are written in the same geometry and voxel 
+   size as the SPM atlas image specified by the `refimg_nii` parameter.
 
 6. The fMRI time series images are smoothed with a `fwhm` mm Gaussian kernel.
 
