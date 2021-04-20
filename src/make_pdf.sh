@@ -49,8 +49,17 @@ done
 
 
 # README and methods info
-${src_dir}/make_params_report.sh > params.txt
-cat /opt/gf-fmri/README.md params.txt > readme.txt
+cat <<- EOF > params.txt
+	$project $subject $session $scan, Task $task
+	$thedate
+	Main fMRI $(basename $fmriFWD_niigz), RPE TOPUP fMRI $(basename $fmriREV_niigz)
+	Phase encoding direction $pedir, using topup is $run_topup
+	Output voxel $vox_mm mm, smoothing kernel $fwhm mm fwhm, high pass filter $hpf sec
+	
+	
+	
+EOF
+cat  params.txt /opt/gf-fmri/README.md > readme.txt
 ${magick_dir}/convert -size 2600x3365 xc:white -pointsize 36 -font Courier -fill black \
 	-annotate +100+100 "@readme.txt" readme.png
 
@@ -89,5 +98,5 @@ ${magick_dir}/convert -size 2600x3365 xc:white \
 	-gravity SouthEast -pointsize 48 -annotate +100+100 "${thedate}" \
 	first_level_design_001.png
 
-${magick_dir}/convert page_reg.png page_ax.png first_level_design_001.png readme.png gf-fmri.pdf
+${magick_dir}/convert readme.png page_reg.png page_ax.png first_level_design_001.png gf-fmri.pdf
 
