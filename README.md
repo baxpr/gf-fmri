@@ -8,12 +8,8 @@ fmriFWD motion-corrected time series. The resulting fMRI are warped to MNI space
 supplied deformation, and first level statistical analysis is performed using SPM for the chosen 
 task.
 
-The pipeline is installed in the container at `/opt/gf-fmri`.
-
-To build, note that the matlab binary must be created first. See `matlab/build/BUILD.md`. The 
-actual matlab code here and in the container is for reference only, and is not used at runtime.
-
-For an example run command, see `test_container.sh`.
+The pipeline is installed in the container at `/opt/gf-fmri`. For an example run command, 
+see `test_container.sh`.
 
 ## Processing steps
 
@@ -72,16 +68,7 @@ For an example run command, see `test_container.sh`.
 
 *Info for PDF report title if run on XNAT*
     
-    --project
-    --subject
-    --session
-    --scan
-
-*Extra options only needed for testing*
-    
-    --src_dir                 Location of pipeline shell scripts
-    --matlab_dir              Location of pipeline matlab code
-    --mcr_dir                 Location of Matlab Compiled Runtime
+    --project, --subject, --session, --scan
 
 
 ## Outputs
@@ -90,6 +77,7 @@ For an example run command, see `test_container.sh`.
     MEANFMRI                  Native space mean fMRI after motion correction/topup
     MEANFMRI_REG              Native space mean fMRI after mot corr/topup and registration to t1
     FMRI_REG                  Native space fMRI time series after mot corr/topup and registration
+    MOTPARAMS_FSL             Estimated motion for fmriFWD, in FSL format
     MEANFMRI_MNI              Atlas space mean fMRI after mot corr/topup and registration
     FMRI_MNI                  Atlas space fMRI time series after mot corr/topup and registration
     SFMRI_MNI                 Smoothed atlas space fMRI
