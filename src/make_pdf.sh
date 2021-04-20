@@ -91,4 +91,3 @@ ${magick_dir}/convert -size 2600x3365 xc:white \
 
 ${magick_dir}/convert page_reg.png page_ax.png first_level_design_001.png readme.png gf-fmri.pdf
 
-rm *.png
