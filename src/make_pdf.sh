@@ -50,10 +50,10 @@ done
 
 # README and methods info
 cat <<- EOF > params.txt
-	$project $subject $session $scan, Task $task
-	$thedate
+	fMRI ANALYSIS PIPELINE gf-fmri for task $task, $thedate
+	$project $subject $session $scan
 	Main fMRI $(basename $fmriFWD_niigz), RPE TOPUP fMRI $(basename $fmriREV_niigz)
-	Phase encoding direction $pedir, using topup is $run_topup
+	Phase encoding direction is $pedir, topup is $run_topup
 	Output voxel $vox_mm mm, smoothing kernel $fwhm mm fwhm, high pass filter $hpf sec
 	
 	
