@@ -57,10 +57,9 @@ cat <<- EOF > params.txt
 	Output voxel $vox_mm mm, smoothing kernel $fwhm mm fwhm, high pass filter $hpf sec
 	
 	
-	
 EOF
 cat  params.txt /opt/gf-fmri/README.md > readme.txt
-${magick_dir}/convert -size 2600x3365 xc:white -pointsize 36 -font Courier -fill black \
+${magick_dir}/convert -size 2600x3365 xc:white -pointsize 32 -font Courier -fill black \
 	-annotate +100+100 "@readme.txt" readme.png
 
 # Combine
