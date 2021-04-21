@@ -29,7 +29,7 @@ fsleyes render -of coreg.png \
 # EPI normalization, MNI space
 fslmaths ${FSLDIR}/data/standard/tissuepriors/avg152T1_gray -thr 100 -bin gm_mni
 fsleyes render -of mni.png \
-	--scene ortho --worldLoc 10 -30 0 --displaySpace world --size 1800 600 --xzoom 600 --yzoom 600 --zzoom 600 \
+	--scene ortho --worldLoc 10 -20 0 --displaySpace world --size 1800 600 --xzoom 600 --yzoom 600 --zzoom 600 \
 	--layout horizontal --hideCursor \
 	wmeanfmri --overlayType volume \
 	gm_mni --overlayType label --outline --outlineWidth 2 --lut harvard-oxford-subcortical
@@ -50,15 +50,17 @@ done
 
 # README and methods info
 cat <<- EOF > params.txt
-	fMRI ANALYSIS PIPELINE gf-fmri for task $task, $thedate
+	FMRI ANALYSIS PIPELINE gf-fmri for task $task, $thedate
+	
 	$project $subject $session $scan
+
 	Main fMRI $(basename $fmriFWD_niigz), RPE TOPUP fMRI $(basename $fmriREV_niigz)
 	Phase encoding direction is $pedir, topup is $run_topup
 	Output voxel $vox_mm mm, smoothing kernel $fwhm mm fwhm, high pass filter $hpf sec
 	
 	
 EOF
-cat  params.txt /opt/gf-fmri/README.md > readme.txt
+cat params.txt /opt/gf-fmri/README.md > readme.txt
 ${magick_dir}/convert -size 2600x3365 xc:white -pointsize 32 -font Courier -fill black \
 	-annotate +100+100 "@readme.txt" readme.png
 
@@ -68,19 +70,15 @@ ${magick_dir}/montage \
 	-tile 3x -trim -quality 100 -background black -gravity center \
 	-border 20 -bordercolor black page_ax.png
 
-${magick_dir}/montage \
-	-mode concatenate coreg.png mni.png \
-	-tile 1x -trim -quality 100 -background black -gravity center \
-	-border 20 -bordercolor black page_reg.png
-
 info_string="$project $subject $session $scan"
 
 ${magick_dir}/convert -size 2600x3365 xc:white \
-	-gravity center \( page_reg.png -resize 2400x \) -composite \
-	-gravity North -pointsize 48 -annotate +0+100 \
-	"Top: T1 gray matter outline on registered mean fMRI (native space)" \
-	-gravity North -pointsize 48 -annotate +0+200 \
-	"Bottom: Atlas gray matter outline on warped mean fMRI (atlas space)" \
+	-gravity center \( coreg.png -geometry '2400x2400+0-0' \) -composite \
+	-gravity center -pointsize 48 -annotate +0-1250 \
+	"T1 gray matter outline on unsmoothed registered mean fMRI (native space)" \
+	-gravity center \( mni.png -geometry '2400x2400+0+1200' \) -composite \
+	-gravity center -pointsize 48 -annotate +0-50 \
+	"Atlas gray matter outline on unsmoothed warped mean fMRI (atlas space)" \
 	-gravity SouthEast -pointsize 48 -annotate +100+100 "${thedate}" \
 	page_reg.png
 
