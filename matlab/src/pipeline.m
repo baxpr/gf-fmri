@@ -80,6 +80,8 @@ switch inp.task
 		conds_mat = conditions_Oddball(out_dir);
 	case 'SPT'
 		conds_mat = conditions_SPT(out_dir);
+	case 'SPT-ESOP'
+		conds_mat = conditions_SPT_ESOP(out_dir);
 	case 'WM'
 		conds_mat = conditions_WM(out_dir);
 	otherwise

@@ -6,7 +6,7 @@ singularity run --contain --cleanenv \
 --bind INPUTS_141651:/INPUTS \
 --bind OUTPUTS_141651_WM:/OUTPUTS \
 --bind /tmp:/tmp \
-gf-fmri_v1.3.3.simg \
+gf-fmri_v1.3.4.simg \
 --project GenFac_HWZ \
 --subject 141651 \
 --session 141651 \

@@ -61,6 +61,9 @@ switch task
 	case 'SPT'
 		contrasts_SPT(spm_dir,conds_mat)
 		contrast = 3;
+	case 'SPT-ESOP'
+		contrasts_SPT_ESOP(spm_dir,conds_mat)
+		contrast = 3;
 	case 'WM'
 		contrasts_WM(spm_dir,conds_mat)
 		contrast = 3;
