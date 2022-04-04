@@ -33,8 +33,7 @@ ENV FSLDIR="/opt/fsl" \
     FSLREMOTECALL=""
 
 # Main download. See https://fsl.fmrib.ox.ac.uk/fsldownloads/manifest.csv
-RUN cd /usr/local
-    wget -nv -O /opt/fsl.tar.gz https://fsl.fmrib.ox.ac.uk/fsldownloads/fsl-6.0.5.1-centos7_64.tar.gz && \
+RUN wget -nv -O /opt/fsl.tar.gz https://fsl.fmrib.ox.ac.uk/fsldownloads/fsl-6.0.5.1-centos7_64.tar.gz && \
     cd /opt && \
     tar -zxf fsl.tar.gz && \
     rm /opt/fsl.tar.gz
