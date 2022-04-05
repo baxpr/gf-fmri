@@ -61,4 +61,4 @@ ENV PATH /opt/gf-fmri/src:/opt/gf-fmri/matlab/bin:${PATH}
 RUN run_spm12.sh ${MATLAB_RUNTIME} function quit
 
 # Entrypoint
-ENTRYPOINT ["gf-fmri.sh"]
+ENTRYPOINT ["wrapper.sh"]
