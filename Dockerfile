@@ -58,7 +58,7 @@ ENV MATLAB_RUNTIME=/usr/local/MATLAB/MATLAB_Runtime/v97
 ENV PATH /opt/gf-fmri/src:/opt/gf-fmri/matlab/bin:${PATH}
 
 # Matlab executable must be run at build to extract the CTF archive
-RUN run_matlab_entrypoint.sh ${MATLAB_RUNTIME} quit
+RUN run_spm12.sh ${MATLAB_RUNTIME} function quit
 
 # Entrypoint
 ENTRYPOINT ["gf-fmri.sh"]
