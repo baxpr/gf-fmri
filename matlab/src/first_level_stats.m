@@ -73,6 +73,12 @@ end
 q = load([spm_dir '/SPM.mat']);
 conname = q.SPM.xCon(contrast).name;
 
+% Save connames to file for reference during PDF build
+fid = fopen(fullfile(out_dir,'contrast_names.txt'));
+for c = 1:numel(SPM.xCon)
+	fprintf(fid,'%s\n',SPM.xCon(c).name);
+end
+
 
 %% Results display
 % Needed to create the spmT even if we don't get the figure window
