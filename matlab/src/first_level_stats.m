@@ -74,11 +74,11 @@ q = load([spm_dir '/SPM.mat']);
 conname = q.SPM.xCon(contrast).name;
 
 % Save connames to file for reference during PDF build
-fid = fopen(fullfile(out_dir,'contrast_names.txt'));
-for c = 1:numel(q.SPM.xCon)
-	fprintf(fid,'%s\n',q.SPM.xCon(c).name);
-end
-fclose(fid);
+%fid = fopen(fullfile(out_dir,'contrast_names.txt'),'wt');
+%for c = 1:numel(q.SPM.xCon)
+%	fprintf(fid,'%s\n',q.SPM.xCon(c).name);
+%end
+%fclose(fid);
 
 
 %% Results display
